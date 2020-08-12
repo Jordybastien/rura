@@ -1,11 +1,13 @@
 {
   "main": "index.js",
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
     "web": "expo start --web",
-    "start": "react-native start",
-    "test": "jest"
+    "start": "expo start",
+    "test": "jest",
+    "build:android": "expo build:android",
+    "build:ios": "expo build:ios"
   },
   "dependencies": {
     "expo": "~38.0.9",
