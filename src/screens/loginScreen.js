@@ -9,13 +9,13 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import { Spinner } from 'native-base';
-import { useFonts } from '@use-expo/font';
 import { blue, white, gray, orange } from '../utils/colors';
 import Svg, { Path } from 'react-native-svg';
 import { AntDesign } from '@expo/vector-icons';
+import * as Animatable from 'react-native-animatable';
 
 const { width, height } = Dimensions.get('window');
 
@@ -24,11 +24,13 @@ class LoginScreen extends Component {
     email: '',
     password: '',
     showSvg: true,
+    loading: false,
   };
   render() {
-    const { email, showSvg, password } = this.state;
+    const { email, showSvg, password, loading } = this.state;
+
     return (
-      <View>
+      <Animatable.View animation="fadeInUp">
         <ImageBackground
           source={require('../../assets/bg-3.png')}
           style={{ width, height }}
@@ -92,19 +94,30 @@ class LoginScreen extends Component {
                 </View>
               </View>
               <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.buttonHolder}>
+                <TouchableOpacity
+                  style={styles.buttonHolder}
+                  onPress={() => this.setState({ loading: true })}
+                >
                   <View style={styles.buttonIconHolder}>
-                    <AntDesign name="lock1" size={30} color={blue} />
+                    {loading ? (
+                      <AntDesign name="unlock" size={30} color={blue} />
+                    ) : (
+                      <AntDesign name="lock1" size={30} color={blue} />
+                    )}
                   </View>
                   <View style={styles.buttonContainer}>
-                    <AntDesign name="arrowright" size={30} color={blue} />
+                    {loading ? (
+                      <Spinner color={blue} />
+                    ) : (
+                      <AntDesign name="arrowright" size={30} color={blue} />
+                    )}
                   </View>
                 </TouchableOpacity>
               </View>
             </View>
           </KeyboardAvoidingView>
         </ImageBackground>
-      </View>
+      </Animatable.View>
     );
   }
 }
@@ -207,7 +220,7 @@ const styles = StyleSheet.create({
     fontFamily: 'regular',
     fontSize: 16,
   },
-  txtLabelCont: { marginBottom: 10 },
+  txtLabelCont: { marginBottom: 5 },
   btnContainer: {
     flex: 1,
     justifyContent: 'center',

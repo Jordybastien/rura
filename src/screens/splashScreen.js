@@ -10,11 +10,15 @@ import {
 import { Spinner } from 'native-base';
 import { useFonts } from '@use-expo/font';
 import { white, blue } from '../utils/colors';
+import LoginScreen from './loginScreen';
+import * as Animatable from 'react-native-animatable';
 
 const { width, height } = Dimensions.get('window');
 
 const SplashScreen = (props) => {
   const [showSpinner, setShowSpinner] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
   const [isFontLoaded] = useFonts({
     regular: require('../../assets/fonts/Montserrat-Regular.ttf'),
     bold: require('../../assets/fonts/Montserrat-Bold.ttf'),
@@ -27,7 +31,9 @@ const SplashScreen = (props) => {
   }, 3000);
 
   setTimeout(() => {
-    props.navigation.navigate('LoginScreen');
+    // props.navigation.navigate('LoginScreen');
+    setShowLogin(true);
+    setShowSplash(false);
   }, 8000);
 
   return (
@@ -36,14 +42,21 @@ const SplashScreen = (props) => {
         source={require('../../assets/bg-3.png')}
         style={{ width, height }}
       >
-        <View style={styles.container}>
-          <Image
-            source={require('../../assets/logo.png')}
-            style={styles.logo}
-          />
+        {showSplash && (
+          <Animatable.View
+            style={styles.container}
+            delay={7500}
+            animation="fadeOutUp"
+          >
+            <Image
+              source={require('../../assets/logo.png')}
+              style={styles.logo}
+            />
 
-          {showSpinner && <Spinner color={blue} />}
-        </View>
+            {showSpinner && <Spinner color={blue} />}
+          </Animatable.View>
+        )}
+        {showLogin && <LoginScreen />}
       </ImageBackground>
     </View>
   );
