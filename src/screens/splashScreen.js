@@ -56,7 +56,7 @@ const SplashScreen = (props) => {
             {showSpinner && <Spinner color={blue} />}
           </Animatable.View>
         )}
-        {showLogin && <LoginScreen />}
+        {showLogin && <LoginScreen navigation={props.navigation} />}
       </ImageBackground>
     </View>
   );

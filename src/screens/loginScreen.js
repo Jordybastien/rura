@@ -26,6 +26,15 @@ class LoginScreen extends Component {
     showSvg: true,
     loading: false,
   };
+
+  handleLogin = () => {
+    this.setState({ loading: true });
+    this.props.navigation.reset({
+      index: 0,
+      routes: [{ name: 'HomeScreen' }],
+    });
+  };
+
   render() {
     const { email, showSvg, password, loading } = this.state;
 
@@ -96,7 +105,7 @@ class LoginScreen extends Component {
               <View style={styles.btnContainer}>
                 <TouchableOpacity
                   style={styles.buttonHolder}
-                  onPress={() => this.setState({ loading: true })}
+                  onPress={this.handleLogin}
                 >
                   <View style={styles.buttonIconHolder}>
                     {loading ? (
