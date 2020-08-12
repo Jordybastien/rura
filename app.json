@@ -1,0 +1,12 @@
+{
+  "name": "rura",
+  "displayName": "rura",
+  "expo": {
+    "name": "rura",
+    "slug": "rura",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
