@@ -31,7 +31,6 @@ const SplashScreen = (props) => {
   }, 3000);
 
   setTimeout(() => {
-    // props.navigation.navigate('LoginScreen');
     setShowLogin(true);
     setShowSplash(false);
   }, 8000);

@@ -4,12 +4,14 @@ import { blue, white, gray, orange } from '../../utils/colors';
 
 const { width, height } = Dimensions.get('window');
 
-const LogoTitle = () => {
+const LogoTitle = ({ isHome }) => {
   return (
     <View
       style={[
         styles.container,
-        Platform.OS === 'android' && styles.adjustAndroid,
+        isHome
+          ? Platform.OS === 'android' && styles.adjustAndroid
+          : styles.adjustBackButton,
       ]}
     >
       <Image
@@ -32,6 +34,9 @@ const styles = StyleSheet.create({
   },
   adjustAndroid: {
     width: width - 50,
+  },
+  adjustBackButton: {
+    width: width - 150,
   },
   imgSize: {
     width: width / 5,

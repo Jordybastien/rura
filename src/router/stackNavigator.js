@@ -6,6 +6,9 @@ import LoginScreen from '../screens/loginScreen';
 import { blue, white } from '../utils/colors';
 import TabNavigator from './tabNavigator';
 import LogoTitle from '../components/logoTitle';
+import CompanyScreen from '../screens/companyScreen';
+import DriverScreen from '../screens/driverScreen';
+import ScanScreen from '../screens/cameraScreen';
 
 const StackNavigatorConfig = {
   headerMode: 'screen',
@@ -35,6 +38,39 @@ const StackConfig = {
       headerLeft: null,
     },
   },
+  CompanyScreen: {
+    name: 'CompanyScreen',
+    component: CompanyScreen,
+    options: {
+      headerShown: true,
+      headerStyle: {
+        backgroundColor: blue,
+      },
+      headerTintColor: white,
+    },
+  },
+  DriverScreen: {
+    name: 'DriverScreen',
+    component: DriverScreen,
+    options: {
+      headerShown: true,
+      headerStyle: {
+        backgroundColor: blue,
+      },
+      headerTintColor: white,
+    },
+  },
+  ScanScreen: {
+    name: 'ScanScreen',
+    component: ScanScreen,
+    options: {
+      headerShown: true,
+      headerStyle: {
+        backgroundColor: blue,
+      },
+      headerTintColor: white,
+    },
+  },
 };
 const Stack = createStackNavigator();
 
@@ -46,14 +82,51 @@ const StackNavigator = () => {
       <Stack.Screen
         {...StackConfig['HomeScreen']}
         options={{
-          headerTitle: () => <LogoTitle />,
+          headerTitle: () => <LogoTitle isHome={true} />,
           headerStyle: {
             backgroundColor: blue,
-            shadowRadius: 0,
-            shadowOffset: {
-              height: 0,
-            },
+            shadowColor: 'transparent',
+            elevation: 0,
           },
+        }}
+      />
+      <Stack.Screen
+        {...StackConfig['CompanyScreen']}
+        options={{
+          headerTitle: () => <LogoTitle isHome={false} />,
+          headerStyle: {
+            backgroundColor: blue,
+            shadowColor: 'transparent',
+            elevation: 0,
+          },
+          headerTintColor: white,
+          headerBackTitle: 'Back',
+        }}
+      />
+      <Stack.Screen
+        {...StackConfig['DriverScreen']}
+        options={{
+          headerTitle: () => <LogoTitle isHome={false} />,
+          headerStyle: {
+            backgroundColor: blue,
+            shadowColor: 'transparent',
+            elevation: 0,
+          },
+          headerTintColor: white,
+          headerBackTitle: 'Back',
+        }}
+      />
+      <Stack.Screen
+        {...StackConfig['ScanScreen']}
+        options={{
+          headerTitle: () => <LogoTitle isHome={false} />,
+          headerStyle: {
+            backgroundColor: blue,
+            shadowColor: 'transparent',
+            elevation: 0,
+          },
+          headerTintColor: white,
+          headerBackTitle: 'Back',
         }}
       />
     </Stack.Navigator>

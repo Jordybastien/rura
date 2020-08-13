@@ -36,7 +36,10 @@ class HomeScreen extends Component {
         </View>
         <View style={styles.mainContent}>
           <View>
-            <TouchableOpacity style={styles.cardContainer}>
+            <TouchableOpacity
+              style={styles.cardContainer}
+              onPress={() => this.props.navigation.navigate('DriverScreen')}
+            >
               <LinearGradient
                 colors={['rgba(0,0,0,0.2)', 'transparent']}
                 style={styles.gradient}
@@ -48,6 +51,7 @@ class HomeScreen extends Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.cardContainer, { backgroundColor: blue }]}
+              onPress={() => this.props.navigation.navigate('CompanyScreen')}
             >
               <LinearGradient
                 colors={['rgba(0,0,0,0.2)', 'transparent']}
