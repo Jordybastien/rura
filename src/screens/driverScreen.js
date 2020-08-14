@@ -5,8 +5,15 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
 import { blue, white, gray, orange } from '../utils/colors';
+import { LinearGradient } from 'expo-linear-gradient';
+import {
+  FontAwesome,
+  AntDesign,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
@@ -17,15 +24,51 @@ class DriverScreen extends Component {
       <View style={styles.container}>
         <View style={styles.headerContent}>
           <View style={styles.headerText}>
-            <Text style={styles.headerLabel}>Driver Details</Text>
+            <Text style={styles.headerLabel}>Driver</Text>
           </View>
         </View>
         <View style={styles.mainContent}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('ScanScreen')}
+          <ImageBackground
+            source={require('../../assets/bg-3.png')}
+            style={styles.mainContent}
           >
-            <Text>DriverScreen</Text>
-          </TouchableOpacity>
+            <View>
+              <TouchableOpacity
+                style={styles.cardContainer}
+                onPress={() => this.props.navigation.navigate('ScanScreen')}
+              >
+                <LinearGradient
+                  colors={['rgba(0,0,0,0.2)', 'transparent']}
+                  style={styles.gradient}
+                />
+                <View style={styles.iconContainer}>
+                  <MaterialCommunityIcons
+                    name="barcode-scan"
+                    size={50}
+                    color={blue}
+                  />
+                </View>
+                <Text style={styles.iconLabel}>Scan</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.cardContainer, { backgroundColor: blue }]}
+                onPress={() => this.props.navigation.navigate('CompanyScreen')}
+              >
+                <LinearGradient
+                  colors={['rgba(0,0,0,0.2)', 'transparent']}
+                  style={styles.gradient}
+                />
+                <View style={styles.iconContainer}>
+                  <FontAwesome
+                    name="pencil-square-o"
+                    size={50}
+                    color={orange}
+                  />
+                </View>
+                <Text style={[styles.iconLabel, { color: orange }]}>Fill</Text>
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
         </View>
       </View>
     );
@@ -68,5 +111,37 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  cardContainer: {
+    width: width - 120,
+    height: 120,
+    backgroundColor: orange,
+    borderRadius: 20,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10,
+    marginBottom: 20,
+  },
+  gradient: {
+    borderRadius: 20,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 120,
+  },
+  iconLabel: {
+    color: blue,
+    fontFamily: 'bold',
+    fontSize: 20,
   },
 });

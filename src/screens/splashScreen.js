@@ -6,12 +6,14 @@ import {
   Image,
   Dimensions,
   ImageBackground,
+  Platform,
 } from 'react-native';
 import { Spinner } from 'native-base';
 import { useFonts } from '@use-expo/font';
 import { white, blue } from '../utils/colors';
 import LoginScreen from './loginScreen';
 import * as Animatable from 'react-native-animatable';
+import { Fold } from 'react-native-animated-spinkit';
 
 const { width, height } = Dimensions.get('window');
 
@@ -31,6 +33,7 @@ const SplashScreen = (props) => {
   }, 3000);
 
   setTimeout(() => {
+    // TODO: Check if logged in
     setShowLogin(true);
     setShowSplash(false);
   }, 8000);
@@ -52,7 +55,7 @@ const SplashScreen = (props) => {
               style={styles.logo}
             />
 
-            {showSpinner && <Spinner color={blue} />}
+            {showSpinner && <Fold size={30} color={blue} />}
           </Animatable.View>
         )}
         {showLogin && <LoginScreen navigation={props.navigation} />}

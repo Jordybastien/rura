@@ -11,6 +11,7 @@ import {
 import { blue, white, gray, orange } from '../utils/colors';
 import { Camera } from 'expo-camera';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { Bounce } from 'react-native-animated-spinkit';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,13 +20,21 @@ export default function App(props) {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [bulb, setBulb] = useState(false);
   const [scanned, setScanned] = useState(false);
+  const [status, setStatus] = useState(false);
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    console.log('=======>type', type);
-    console.log('=======>data', data);
+
     Vibration.vibrate(3000);
+    props.navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: 'ScanDetailsScreen',
+          idNumber: data.split(' ').join('').substr(0, 16),
+        },
+      ],
+    });
   };
 
   useEffect(() => {
@@ -42,8 +51,6 @@ export default function App(props) {
     return <Text>No access to camera</Text>;
   }
 
-  const handlePause = () => console.log('==========> Paused <==========');
-
   return (
     <View style={styles.container}>
       <View style={styles.headerContent}>
@@ -56,9 +63,12 @@ export default function App(props) {
           style={[StyleSheet.absoluteFillObject, styles.cameraContainer]}
           type={type}
           flashMode={bulb ? 'torch' : undefined}
-          onBarCodeScanned={scanned ? handlePause : handleBarCodeScanned}
-          onCameraReady={() => console.log('===========+>Camera Ready')}
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          onCameraReady={() => setStatus(true)}
         >
+          <View style={styles.spinContainer}>
+            <View>{status && <Bounce size={48} color={blue} />}</View>
+          </View>
           <View style={styles.panelContainer}>
             <TouchableOpacity
               style={styles.bulbContainer}
@@ -121,7 +131,7 @@ const styles = StyleSheet.create({
   },
   cameraContainer: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
   },
   bulbContainer: {
     width: 70,
@@ -130,5 +140,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     opacity: 1,
+  },
+  spinContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.5,
   },
 });

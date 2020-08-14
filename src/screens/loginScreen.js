@@ -28,10 +28,12 @@ class LoginScreen extends Component {
   };
 
   handleLogin = () => {
+    // TODO: handle Login
     this.setState({ loading: true });
     this.props.navigation.reset({
       index: 0,
-      routes: [{ name: 'HomeScreen' }],
+      // TODO: Change to Home Screen
+      routes: [{ name: 'DriverDetailsScreen' }],
     });
   };
 

@@ -9,6 +9,8 @@ import LogoTitle from '../components/logoTitle';
 import CompanyScreen from '../screens/companyScreen';
 import DriverScreen from '../screens/driverScreen';
 import ScanScreen from '../screens/cameraScreen';
+import ScanDetailsScreen from '../screens/scanDetailsScreen';
+import DriverDetailsScreen from '../screens/driverDetailsScreen';
 
 const StackNavigatorConfig = {
   headerMode: 'screen',
@@ -71,6 +73,25 @@ const StackConfig = {
       headerTintColor: white,
     },
   },
+  ScanDetailsScreen: {
+    name: 'ScanDetailsScreen',
+    component: ScanDetailsScreen,
+    options: {
+      headerShown: true,
+      headerStyle: {
+        backgroundColor: blue,
+      },
+      headerTintColor: white,
+      headerLeft: null,
+    },
+  },
+  DriverDetailsScreen: {
+    name: 'DriverDetailsScreen',
+    component: DriverDetailsScreen,
+    options: {
+      headerShown: false,
+    },
+  },
 };
 const Stack = createStackNavigator();
 
@@ -129,6 +150,20 @@ const StackNavigator = () => {
           headerBackTitle: 'Back',
         }}
       />
+      <Stack.Screen
+        {...StackConfig['ScanDetailsScreen']}
+        options={{
+          headerTitle: () => <LogoTitle isHome={false} />,
+          headerStyle: {
+            backgroundColor: blue,
+            shadowColor: 'transparent',
+            elevation: 0,
+          },
+          headerTintColor: white,
+          headerBackTitle: 'Back',
+        }}
+      />
+      <Stack.Screen {...StackConfig['DriverDetailsScreen']} />
     </Stack.Navigator>
   );
 };

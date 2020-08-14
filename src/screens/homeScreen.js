@@ -5,6 +5,8 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  ImageBackground,
+  Platform,
 } from 'react-native';
 import { blue, white, gray, orange } from '../utils/colors';
 import {
@@ -35,38 +37,45 @@ class HomeScreen extends Component {
           </View>
         </View>
         <View style={styles.mainContent}>
-          <View>
-            <TouchableOpacity
-              style={styles.cardContainer}
-              onPress={() => this.props.navigation.navigate('DriverScreen')}
-            >
-              <LinearGradient
-                colors={['rgba(0,0,0,0.2)', 'transparent']}
-                style={styles.gradient}
-              />
-              <View style={styles.iconContainer}>
-                <AntDesign name="car" size={50} color={blue} />
-              </View>
-              <Text style={styles.iconLabel}>Driver</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.cardContainer, { backgroundColor: blue }]}
-              onPress={() => this.props.navigation.navigate('CompanyScreen')}
-            >
-              <LinearGradient
-                colors={['rgba(0,0,0,0.2)', 'transparent']}
-                style={styles.gradient}
-              />
-              <View style={styles.iconContainer}>
-                <MaterialCommunityIcons
-                  name="office-building"
-                  size={50}
-                  color={orange}
+          <ImageBackground
+            source={require('../../assets/bg-3.png')}
+            style={styles.mainContent}
+          >
+            <View>
+              <TouchableOpacity
+                style={styles.cardContainer}
+                onPress={() => this.props.navigation.navigate('DriverScreen')}
+              >
+                <LinearGradient
+                  colors={['rgba(0,0,0,0.2)', 'transparent']}
+                  style={styles.gradient}
                 />
-              </View>
-              <Text style={[styles.iconLabel, { color: orange }]}>Company</Text>
-            </TouchableOpacity>
-          </View>
+                <View style={styles.iconContainer}>
+                  <AntDesign name="car" size={50} color={blue} />
+                </View>
+                <Text style={styles.iconLabel}>Driver</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.cardContainer, { backgroundColor: blue }]}
+                onPress={() => this.props.navigation.navigate('CompanyScreen')}
+              >
+                <LinearGradient
+                  colors={['rgba(0,0,0,0.2)', 'transparent']}
+                  style={styles.gradient}
+                />
+                <View style={styles.iconContainer}>
+                  <MaterialCommunityIcons
+                    name="office-building"
+                    size={50}
+                    color={orange}
+                  />
+                </View>
+                <Text style={[styles.iconLabel, { color: orange }]}>
+                  Company
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
         </View>
       </View>
     );
@@ -130,7 +139,8 @@ const styles = StyleSheet.create({
   },
   iconLabel: {
     color: blue,
-    fontFamily: 'regular',
+    fontFamily: 'bold',
+    fontSize: 20,
   },
   gradient: {
     borderRadius: 20,

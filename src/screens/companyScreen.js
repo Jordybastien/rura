@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ImageBackground,
+} from 'react-native';
 import { blue, white, gray, orange } from '../utils/colors';
 
 const { width, height } = Dimensions.get('window');
@@ -15,7 +21,12 @@ class CompanyScreen extends Component {
           </View>
         </View>
         <View style={styles.mainContent}>
-          <Text>CompanyScreen</Text>
+          <ImageBackground
+            source={require('../../assets/bg-3.png')}
+            style={styles.mainContent}
+          >
+            <Text>CompanyScreen</Text>
+          </ImageBackground>
         </View>
       </View>
     );
