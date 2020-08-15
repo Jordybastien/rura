@@ -52,7 +52,11 @@ class DriverScreen extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.cardContainer, { backgroundColor: blue }]}
-                onPress={() => this.props.navigation.navigate('CompanyScreen')}
+                onPress={() =>
+                  this.props.navigation.navigate('ScanDetailsScreen', {
+                    isScan: false,
+                  })
+                }
               >
                 <LinearGradient
                   colors={['rgba(0,0,0,0.2)', 'transparent']}
@@ -97,8 +101,8 @@ const styles = StyleSheet.create({
     width: width,
     justifyContent: 'center',
     alignItems: 'center',
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
     paddingTop: 100,
     paddingBottom: 100,
   },

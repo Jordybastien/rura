@@ -43,6 +43,9 @@ class DriverDetails extends Component {
               source={require('../../assets/pic.png')}
               style={styles.userImage}
             />
+            <View>
+              <Text>Back</Text>
+            </View>
           </View>
           <View style={styles.mainInfoHolder}>
             <View style={styles.userInfoHolder}>
@@ -140,8 +143,6 @@ const styles = StyleSheet.create({
     marginTop: -50,
     justifyContent: 'center',
     alignItems: 'center',
-    // borderColor: orange,
-    // borderWidth: 5,
   },
   footerButtons: {
     flex: 1,
@@ -210,6 +211,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  footerSide: {},
   licenseContainer: {
     flex: 1,
     justifyContent: 'center',

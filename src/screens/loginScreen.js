@@ -32,8 +32,7 @@ class LoginScreen extends Component {
     this.setState({ loading: true });
     this.props.navigation.reset({
       index: 0,
-      // TODO: Change to Home Screen
-      routes: [{ name: 'DriverDetailsScreen' }],
+      routes: [{ name: 'HomeScreen' }],
     });
   };
 
@@ -156,8 +155,8 @@ const styles = StyleSheet.create({
     width: width,
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   logoContainer: {
     flex: 1,

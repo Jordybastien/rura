@@ -29,6 +29,8 @@ class ScanDetailsScreen extends Component {
     this.props.navigation.navigate('DriverDetailsScreen');
   };
   render() {
+    
+    const { isScan, idNumber } = this.props.route.params;
     return (
       <View style={styles.container}>
         <View style={styles.headerContent}>
@@ -50,8 +52,9 @@ class ScanDetailsScreen extends Component {
                   <View style={styles.txtBoxHolder}>
                     <TextInput
                       style={styles.txtBoxInput}
-                      value={this.props.route.idNumber}
-                      editable={false}
+                      value={idNumber}
+                      editable={!isScan}
+                      placeholder="0000000000000000"
                     />
                   </View>
                 </View>
@@ -59,14 +62,9 @@ class ScanDetailsScreen extends Component {
             </View>
             <View style={styles.btnContainer}>
               <TouchableOpacity
-                style={styles.buttonHolder}
+                style={[styles.buttonHolder, !isScan && styles.notScanBtn]}
                 onPress={this.handleSearchDriver}
               >
-                {/* <View
-                  style={[styles.buttonContainer, { backgroundColor: green }]}
-                >
-                  <Octicons name="thumbsup" size={30} color={white} />
-                </View> */}
                 <View
                   style={[styles.buttonContainer, { backgroundColor: green }]}
                 >
@@ -74,31 +72,28 @@ class ScanDetailsScreen extends Component {
                   <Text style={styles.btnLabel}>Verify</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.buttonHolder}
-                onPress={() =>
-                  this.props.navigation.reset({
-                    index: 0,
-                    routes: [
-                      {
-                        name: 'DriverScreen',
-                      },
-                    ],
-                  })
-                }
-              >
-                {/* <View
-                  style={[styles.buttonContainer, { backgroundColor: red }]}
+              {isScan && (
+                <TouchableOpacity
+                  style={styles.buttonHolder}
+                  onPress={() =>
+                    this.props.navigation.reset({
+                      index: 0,
+                      routes: [
+                        {
+                          name: 'DriverScreen',
+                        },
+                      ],
+                    })
+                  }
                 >
-                  <Octicons name="thumbsdown" size={30} color={white} />
-                </View> */}
-                <View
-                  style={[styles.buttonContainer, { backgroundColor: red }]}
-                >
-                  <Ionicons name="md-refresh" size={30} color={white} />
-                  <Text style={styles.btnLabel}>Retake</Text>
-                </View>
-              </TouchableOpacity>
+                  <View
+                    style={[styles.buttonContainer, { backgroundColor: red }]}
+                  >
+                    <Ionicons name="md-refresh" size={30} color={white} />
+                    <Text style={styles.btnLabel}>Retake</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
             </View>
           </ImageBackground>
         </View>
@@ -139,8 +134,8 @@ const styles = StyleSheet.create({
     width: width,
     justifyContent: 'center',
     alignItems: 'center',
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
     paddingTop: 100,
     paddingBottom: 100,
   },
@@ -179,7 +174,7 @@ const styles = StyleSheet.create({
     backgroundColor: white,
     width: 120,
     height: 60,
-    borderRadius: 30,
+    borderRadius: 20,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -201,11 +196,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: blue,
-    borderRadius: 30,
+    borderRadius: 20,
   },
   btnLabel: {
     fontFamily: 'bold',
     color: blue,
     color: white,
+  },
+  notScanBtn: {
+    width: width - 100,
   },
 });

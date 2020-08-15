@@ -31,7 +31,11 @@ export default function App(props) {
       routes: [
         {
           name: 'ScanDetailsScreen',
-          idNumber: data.split(' ').join('').substr(0, 16),
+
+          params: {
+            isScan: true,
+            idNumber: data.split(' ').join('').substr(0, 16),
+          },
         },
       ],
     });
