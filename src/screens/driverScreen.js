@@ -45,7 +45,7 @@ class DriverScreen extends Component {
                   <MaterialCommunityIcons
                     name="barcode-scan"
                     size={50}
-                    color={blue}
+                    color={white}
                   />
                 </View>
                 <Text style={styles.iconLabel}>Scan</Text>
@@ -66,10 +66,10 @@ class DriverScreen extends Component {
                   <FontAwesome
                     name="pencil-square-o"
                     size={50}
-                    color={orange}
+                    color={white}
                   />
                 </View>
-                <Text style={[styles.iconLabel, { color: orange }]}>Fill</Text>
+                <Text style={[styles.iconLabel, { color: white }]}>Fill</Text>
               </TouchableOpacity>
             </View>
           </ImageBackground>
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     height: 120,
   },
   iconLabel: {
-    color: blue,
+    color: white,
     fontFamily: 'bold',
     fontSize: 20,
   },

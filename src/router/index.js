@@ -6,6 +6,10 @@ import { StatusBar, View } from 'react-native';
 import MainNav from './stackNavigator';
 import { handleInitialData } from '../actions/initialData';
 import { connect } from 'react-redux';
+import Toast from 'react-native-toast-message';
+import { checkToken } from '../services/auth';
+import { setAuthedUser } from '../actions/authedUser';
+import { deleteToken } from '../utils/storage';
 
 class Router extends Component {
   componentDidMount() {
@@ -13,10 +17,12 @@ class Router extends Component {
   }
 
   render() {
+    refreshUser(this.props);
     return (
       <NavigationContainer>
         <AppStatusBar backgroundColor={blue} barStyle="light-content" />
         <MainNav />
+        <Toast ref={(ref) => Toast.setRef(ref)} />
       </NavigationContainer>
     );
   }
@@ -31,3 +37,21 @@ const AppStatusBar = ({ backgroundColor, ...props }) => {
 };
 
 export default connect()(Router);
+
+const refreshUser = async (props) => {
+  const { token, user } = await checkToken();
+
+  if (token && user) {
+    const currentTime = Date.now() / 1000;
+    if (token.exp < currentTime) {
+      await deleteToken();
+      props.navigation.reset({
+        index: 0,
+        routes: [{ name: 'LoginScreen' }],
+      });
+    }
+    
+    props.dispatch(setAuthedUser(user));
+    return user;
+  }
+};

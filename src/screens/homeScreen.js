@@ -15,21 +15,24 @@ import {
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { connect } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
 
 class HomeScreen extends Component {
   state = {};
+
   render() {
+    const { userName, userRole } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.headerContent}>
           <View style={styles.headerText}>
             <View>
-              <Text style={styles.headerLabel}>User Name</Text>
+              <Text style={styles.headerLabel}>{userName}</Text>
             </View>
             <View>
-              <Text style={styles.headerTitle}>Officer</Text>
+              <Text style={styles.headerTitle}>{userRole}</Text>
             </View>
           </View>
           <View style={styles.headerImg}>
@@ -51,7 +54,7 @@ class HomeScreen extends Component {
                   style={styles.gradient}
                 />
                 <View style={styles.iconContainer}>
-                  <AntDesign name="car" size={50} color={blue} />
+                  <AntDesign name="car" size={50} color={white} />
                 </View>
                 <Text style={styles.iconLabel}>Driver</Text>
               </TouchableOpacity>
@@ -67,10 +70,10 @@ class HomeScreen extends Component {
                   <MaterialCommunityIcons
                     name="office-building"
                     size={50}
-                    color={orange}
+                    color={white}
                   />
                 </View>
-                <Text style={[styles.iconLabel, { color: orange }]}>
+                <Text style={[styles.iconLabel, { color: white }]}>
                   Company
                 </Text>
               </TouchableOpacity>
@@ -82,7 +85,14 @@ class HomeScreen extends Component {
   }
 }
 
-export default HomeScreen;
+const mapStateToProps = ({ authedUser }) => {
+  return {
+    userName: authedUser.name,
+    userRole: authedUser.roles[0].display_name,
+  };
+};
+
+export default connect(mapStateToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -138,7 +148,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   iconLabel: {
-    color: blue,
+    color: white,
     fontFamily: 'bold',
     fontSize: 20,
   },

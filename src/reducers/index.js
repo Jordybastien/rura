@@ -4,6 +4,7 @@ import error from './error';
 import companies from './company';
 import companyCategories from './companyCategories';
 import companyOffences from './companyOffences';
+import authedUser from './authedUser';
 
 export default combineReducers({
   loading,
@@ -11,4 +12,5 @@ export default combineReducers({
   companies,
   companyCategories,
   companyOffences,
+  authedUser,
 });

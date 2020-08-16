@@ -16,6 +16,9 @@ import { blue, white, gray, orange } from '../utils/colors';
 import Svg, { Path } from 'react-native-svg';
 import { AntDesign } from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable';
+import { connect } from 'react-redux';
+import { handleUserLogin } from '../actions/authedUser';
+import Toast from 'react-native-toast-message';
 
 const { width, height } = Dimensions.get('window');
 
@@ -25,15 +28,65 @@ class LoginScreen extends Component {
     password: '',
     showSvg: true,
     loading: false,
+    errors: {
+      email: '',
+      password: '',
+    },
   };
 
   handleLogin = () => {
-    // TODO: handle Login
-    this.setState({ loading: true });
-    this.props.navigation.reset({
-      index: 0,
-      routes: [{ name: 'HomeScreen' }],
-    });
+    const { response, data } = this.validateData();
+    if (response) {
+      this.setState({ loading: true });
+      this.props.dispatch(handleUserLogin(data)).then((res) => {
+        this.setState({ loading: false });
+        if (res.type !== 'LOG_ERROR') {
+          this.setState({ spinner: false });
+          this.props.navigation.reset({
+            index: 0,
+            routes: [{ name: 'HomeScreen' }],
+          });
+        } else
+          Toast.show({
+            text1: 'Warning',
+            text2: res.error,
+            type: 'error',
+          });
+      });
+    }
+  };
+
+  validateData = () => {
+    const { password, email } = this.state;
+
+    let response = true;
+    let errorMessage = '';
+
+    if (!password) {
+      response = false;
+      errorMessage = 'Password is required';
+    }
+
+    if (!email) {
+      response = false;
+      errorMessage = 'Email is required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+      response = false;
+      errorMessage = 'Email is invalid';
+    }
+
+    let data = {};
+
+    data.email = email;
+    data.password = password;
+
+    errorMessage &&
+      Toast.show({
+        text1: 'Warning',
+        text2: errorMessage,
+        type: 'error',
+      });
+    return { response, data };
   };
 
   render() {
@@ -132,7 +185,7 @@ class LoginScreen extends Component {
   }
 }
 
-export default LoginScreen;
+export default connect()(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {
