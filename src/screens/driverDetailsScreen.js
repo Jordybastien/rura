@@ -9,6 +9,7 @@ import {
   TextInput,
   ScrollView,
   ImageBackground,
+  Platform,
 } from 'react-native';
 import {
   blue,
@@ -25,12 +26,23 @@ import {
   FontAwesome,
   Fontisto,
   FontAwesome5,
+  Entypo,
+  Feather,
 } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
 class DriverDetails extends Component {
   state = {};
+
+  handleTicket = () => {
+    // TODO: Go to ticket form
+    this.props.navigation.reset({
+      index: 0,
+      routes: [{ name: 'SuccessScreen' }],
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -43,8 +55,19 @@ class DriverDetails extends Component {
               source={require('../../assets/pic.png')}
               style={styles.userImage}
             />
-            <View>
-              <Text>Back</Text>
+            <View style={styles.backBtnContainer}>
+              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                {Platform.OS === 'android' ? (
+                  <Feather name="arrow-left" size={24} color={white} />
+                ) : (
+                  <View style={styles.backBtn}>
+                    <Entypo name="chevron-thin-left" size={24} color={white} />
+                    <View>
+                      <Text style={styles.backLabel}>Back</Text>
+                    </View>
+                  </View>
+                )}
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.mainInfoHolder}>
@@ -96,7 +119,10 @@ class DriverDetails extends Component {
             </View>
           </View>
           <View style={styles.footerButtons}>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={this.handleTicket}
+            >
               <FontAwesome name="ticket" size={30} color={blue} />
               <Text style={styles.btnLabel}>Ticket</Text>
             </TouchableOpacity>
@@ -233,5 +259,18 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontFamily: 'bold',
     fontSize: 16,
+  },
+  backBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  backBtnContainer: {
+    position: 'absolute',
+    paddingLeft: 10,
+    paddingTop: 10,
+  },
+  backLabel: {
+    color: white,
+    fontSize: 18,
   },
 });

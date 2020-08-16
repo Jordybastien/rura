@@ -11,6 +11,7 @@ import DriverScreen from '../screens/driverScreen';
 import ScanScreen from '../screens/cameraScreen';
 import ScanDetailsScreen from '../screens/scanDetailsScreen';
 import DriverDetailsScreen from '../screens/driverDetailsScreen';
+import SuccessScreen from '../screens/successScreen';
 
 const StackNavigatorConfig = {
   headerMode: 'screen',
@@ -92,6 +93,11 @@ const StackConfig = {
       headerShown: false,
     },
   },
+  SuccessScreen: {
+    name: 'SuccessScreen',
+    component: SuccessScreen,
+    options: { headerShown: false },
+  },
 };
 const Stack = createStackNavigator();
 
@@ -164,6 +170,7 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen {...StackConfig['DriverDetailsScreen']} />
+      <Stack.Screen {...StackConfig['SuccessScreen']} />
     </Stack.Navigator>
   );
 };
