@@ -8,15 +8,21 @@ export const loginUser = async (user) => {
 };
 
 export const checkUser = async (token) => {
-  const res = await api.post('/me', token);
-  return res.data.user;
+  try {
+    const res = await api.post('/me', token);
+    return res.data.user;
+  } catch (error) {
+    return {};
+  }
 };
 
 export const checkToken = async () => {
   const token = await getToken();
-  let user = {};
+  let user;
+
   if (token) {
     user = await checkUser({ token });
+    return { token: jwtDecode(token), user };
   }
-  return { token: jwtDecode(token), user };
+  return { token: null, user: null };
 };

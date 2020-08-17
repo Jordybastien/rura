@@ -15,7 +15,9 @@ import LoginScreen from './loginScreen';
 import * as Animatable from 'react-native-animatable';
 import { Fold } from 'react-native-animated-spinkit';
 import { connect } from 'react-redux';
-import { getToken } from '../utils/storage';
+import { checkToken } from '../services/auth';
+import { deleteToken } from '../utils/storage';
+import { setAuthedUser } from '../actions/authedUser';
 
 const { width, height } = Dimensions.get('window');
 
@@ -37,12 +39,21 @@ const SplashScreen = (props) => {
     }, 3000);
 
     let timer2 = setTimeout(async () => {
-      const token = await getToken();
-      if (token) {
-        props.navigation.reset({
-          index: 0,
-          routes: [{ name: 'HomeScreen' }],
-        });
+      const { token, user } = await checkToken();
+
+      if (token && user) {
+        const currentTime = Date.now() / 1000;
+        if (token.exp < currentTime) {
+          await deleteToken();
+          setShowLogin(true);
+          setShowSplash(false);
+        } else {
+          props.dispatch(setAuthedUser(user));
+          props.navigation.reset({
+            index: 0,
+            routes: [{ name: 'HomeScreen' }],
+          });
+        }
       } else {
         setShowLogin(true);
         setShowSplash(false);

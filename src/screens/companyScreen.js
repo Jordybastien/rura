@@ -12,8 +12,17 @@ import { blue, white, gray, orange } from '../utils/colors';
 const { width, height } = Dimensions.get('window');
 
 class CompanyScreen extends Component {
-  state = {};
+  state = {
+    selectedItems: [],
+  };
+
+  onSelectedItemsChange = (selectedItems) => {
+    this.setState({ selectedItems });
+  };
+
   render() {
+    const { selectedItems } = this.state;
+
     return (
       <View style={styles.container}>
         <View style={styles.headerContent}>
@@ -33,10 +42,7 @@ class CompanyScreen extends Component {
                     <Text style={styles.txtLabel}>Email</Text>
                   </View>
                   <View style={styles.txtBoxHolder}>
-                    <TextInput
-                      style={styles.txtBoxInput}
-                      placeholder="test@test.com"
-                    />
+                    {/* Select txt here */}
                   </View>
                 </View>
               </View>

@@ -38,7 +38,7 @@ const AppStatusBar = ({ backgroundColor, ...props }) => {
 
 export default connect()(Router);
 
-const refreshUser = async (props) => {
+export const refreshUser = async (props) => {
   const { token, user } = await checkToken();
 
   if (token && user) {
@@ -50,7 +50,7 @@ const refreshUser = async (props) => {
         routes: [{ name: 'LoginScreen' }],
       });
     }
-    
+
     props.dispatch(setAuthedUser(user));
     return user;
   }

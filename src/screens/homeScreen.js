@@ -87,8 +87,9 @@ class HomeScreen extends Component {
 
 const mapStateToProps = ({ authedUser }) => {
   return {
-    userName: authedUser.name,
-    userRole: authedUser.roles[0].display_name,
+    userName: authedUser && authedUser.name,
+    userRole:
+      authedUser && authedUser.roles && authedUser.roles[0].display_name,
   };
 };
 
