@@ -22,17 +22,17 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { connect } from 'react-redux';
 import { Picker, Item } from 'native-base';
 import Toast from 'react-native-toast-message';
-import { handleSaveCompany } from '../actions/company';
+import { handleSaveDriverTicket } from '../actions/driver';
 import { Spinner } from 'native-base';
 
 const { width, height } = Dimensions.get('window');
 
-class CompanyScreen extends Component {
+class DriverTicketScreen extends Component {
   state = {
     selectedItems: [],
+    selectedDocs: [],
     isModalVisible: false,
-    selCompany: '',
-    selCompanyCategory: '',
+    isDocsVisible: false,
     location: '',
     plate: '',
     loading: false,
@@ -50,6 +50,18 @@ class CompanyScreen extends Component {
     }
   };
 
+  handleThisDoc = (id) => {
+    const { selectedDocs } = this.state;
+    const check = selectedDocs.filter((el) => el === id);
+    if (check.length === 0) {
+      selectedDocs.push(id);
+      this.setState({ selectedDocs });
+    } else {
+      const toSave = selectedDocs.filter((el) => el !== id);
+      this.setState({ selectedDocs: toSave });
+    }
+  };
+
   handleCompany = (data) => this.setState({ selCompany: data });
 
   handleCompanyCategory = (data) => this.setState({ selCompanyCategory: data });
@@ -59,7 +71,7 @@ class CompanyScreen extends Component {
 
     if (response) {
       this.setState({ loading: true });
-      this.props.dispatch(handleSaveCompany(data)).then((res) => {
+      this.props.dispatch(handleSaveDriverTicket(data)).then((res) => {
         this.setState({ loading: false });
         if (res.type !== 'LOG_ERROR') {
           this.props.navigation.reset({
@@ -79,12 +91,12 @@ class CompanyScreen extends Component {
   validateData = () => {
     const {
       selectedItems,
-      selCompany,
-      selCompanyCategory,
+      selectedDocs,
       location,
       plate,
       loading,
     } = this.state;
+    const { driver, userId } = this.props;
 
     let response = true;
     let errorMessage = '';
@@ -97,26 +109,24 @@ class CompanyScreen extends Component {
       response = false;
       errorMessage = 'Plate Number is required';
     }
+    if (selectedDocs.length === 0) {
+      response = false;
+      errorMessage = 'Select atleast one document';
+    }
     if (selectedItems.length === 0) {
       response = false;
       errorMessage = 'Select atleast one offence';
     }
-    if (!selCompanyCategory) {
-      response = false;
-      errorMessage = 'Company Category is required';
-    }
-    if (!selCompany) {
-      response = false;
-      errorMessage = 'Company is required';
-    }
+
     let data = {};
 
-    data.company_category_id = selCompanyCategory;
-    data.company_id = selCompany;
+    data.driving_license = driver.driver_license;
+    data.company_id = driver.driver_company_name;
+    data.user_id = userId;
+    data.plate_number = plate;
     data.location = location;
     data.offense_id = selectedItems;
-    data.plate_number = plate;
-    data.user_id = this.props.userId;
+    data.docs_id = selectedDocs;
 
     errorMessage &&
       Toast.show({
@@ -136,8 +146,10 @@ class CompanyScreen extends Component {
       location,
       plate,
       loading,
+      selectedDocs,
+      isDocsVisible,
     } = this.state;
-    const { companyOffences, companyCategories, companies } = this.props;
+    const { companyOffences, documents } = this.props;
 
     return (
       <View style={styles.container}>
@@ -156,67 +168,6 @@ class CompanyScreen extends Component {
               behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
             >
               <View style={styles.txtBoxContainer}>
-                <View style={[styles.txtBoxContWrapper, { height: 70 }]}>
-                  <View style={[styles.txtBoxCont, { height: 70 }]}>
-                    <View style={[styles.txtLabelCont, { marginBottom: 0 }]}>
-                      <Text style={styles.txtLabel}>Company</Text>
-                    </View>
-                    <View style={styles.txtBoxHolder}>
-                      <Picker
-                        mode="dropdown"
-                        style={styles.picker}
-                        onValueChange={(value) => this.handleCompany(value)}
-                        placeholder="Select Company"
-                        selectedValue={selCompany}
-                      >
-                        <Picker.Item label="Select Company" value={null} />
-                        {companies &&
-                          companies.map(({ id, company_name }, index) => (
-                            <Picker.Item
-                              key={index}
-                              label={company_name}
-                              value={id}
-                              style={styles.singlePickerItem}
-                            />
-                          ))}
-                      </Picker>
-                    </View>
-                  </View>
-                </View>
-                <View style={[styles.txtBoxContWrapper, { height: 70 }]}>
-                  <View style={[styles.txtBoxCont, { height: 70 }]}>
-                    <View style={[styles.txtLabelCont, { marginBottom: 0 }]}>
-                      <Text style={styles.txtLabel}>Company Category</Text>
-                    </View>
-                    <View style={styles.txtBoxHolder}>
-                      <Picker
-                        mode="dropdown"
-                        style={styles.picker}
-                        onValueChange={(value) =>
-                          this.handleCompanyCategory(value)
-                        }
-                        placeholder="Select Company Category"
-                        selectedValue={selCompanyCategory}
-                      >
-                        <Picker.Item
-                          label="Select Company Category"
-                          value={null}
-                        />
-                        {companyCategories &&
-                          companyCategories.map(
-                            ({ id, company_category }, index) => (
-                              <Picker.Item
-                                key={index}
-                                label={company_category}
-                                value={id}
-                                style={styles.singlePickerItem}
-                              />
-                            )
-                          )}
-                      </Picker>
-                    </View>
-                  </View>
-                </View>
                 <View style={styles.txtBoxContWrapper}>
                   <View style={styles.txtBoxCont}>
                     <View style={styles.txtLabelCont}>
@@ -236,6 +187,31 @@ class CompanyScreen extends Component {
                         companyOffences={companyOffences}
                         handleThisOffence={this.handleThisOffence}
                         selectedItems={selectedItems}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View style={styles.txtBoxContWrapper}>
+                  <View style={styles.txtBoxCont}>
+                    <View style={styles.txtLabelCont}>
+                      <Text style={styles.txtLabel}>Documents</Text>
+                    </View>
+                    <View style={styles.txtBoxHolder}>
+                      <TouchableOpacity
+                        onPress={() => this.setState({ isDocsVisible: true })}
+                      >
+                        <Text style={styles.txtLabel}>
+                          Select confiscated Document(s)
+                        </Text>
+                      </TouchableOpacity>
+                      <MultipleDocsSelect
+                        isModalVisible={isDocsVisible}
+                        hideModal={() =>
+                          this.setState({ isDocsVisible: false })
+                        }
+                        documents={documents}
+                        handleThisDoc={this.handleThisDoc}
+                        selectedItems={selectedDocs}
                       />
                     </View>
                   </View>
@@ -299,16 +275,20 @@ const mapStateToProps = ({
   companies,
   companyCategories,
   authedUser,
+  documents,
+  driver,
 }) => {
   return {
     companyOffences: Object.values(companyOffences),
     companies: Object.values(companies),
     companyCategories: Object.values(companyCategories),
     userId: authedUser && authedUser.id,
+    documents: Object.values(documents),
+    driver,
   };
 };
 
-export default connect(mapStateToProps)(CompanyScreen);
+export default connect(mapStateToProps)(DriverTicketScreen);
 
 const MultipleSelect = ({
   isModalVisible,
@@ -337,6 +317,52 @@ const MultipleSelect = ({
                   text={offense_name}
                   textStyle={styles.offenceText}
                   onPress={() => handleThisOffence(id)}
+                />
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+        <TouchableOpacity
+          style={[styles.buttonHolder, { width: 120 }]}
+          onPress={hideModal}
+        >
+          <View style={styles.buttonContainer}>
+            <Octicons name="thumbsup" size={30} color={white} />
+            <Text style={styles.btnLabel}>Done</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </Modal>
+  );
+};
+
+const MultipleDocsSelect = ({
+  isModalVisible,
+  hideModal,
+  documents,
+  handleThisDoc,
+  selectedItems,
+}) => {
+  return (
+    <Modal isVisible={isModalVisible} onBackdropPress={hideModal}>
+      <View style={styles.modalContainer}>
+        <View>
+          <Text style={styles.selectedItems}>
+            {selectedItems.length} Item{selectedItems.length > 1 && 's'}{' '}
+            selected
+          </Text>
+        </View>
+        <View style={styles.offencesContainer}>
+          <ScrollView style={styles.scrollView}>
+            {documents.map(({ doc_name, id }) => (
+              <View style={styles.checkBoxContainer} key={id}>
+                <BouncyCheckbox
+                  isChecked={selectedItems.includes(id)}
+                  textColor={blue}
+                  fontFamily="regular"
+                  text={doc_name}
+                  textStyle={styles.offenceText}
+                  onPress={() => handleThisDoc(id)}
                 />
               </View>
             ))}

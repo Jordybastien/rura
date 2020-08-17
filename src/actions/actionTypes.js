@@ -18,3 +18,7 @@ export const LOGOUT_USER = 'LOGOUT_USER';
 export const RECORD_COMPANY = 'RECORD_COMPANY';
 
 export const SEARCH_DRIVER = 'SEARCH_DRIVER';
+
+export const FETCH_DOCUMENTS = 'FETCH_DOCUMENTS';
+
+export const RECORD_DRIVER = 'RECORD_DRIVER';

@@ -37,11 +37,7 @@ class DriverDetails extends Component {
   state = {};
 
   handleTicket = () => {
-    // TODO: Go to ticket form
-    this.props.navigation.reset({
-      index: 0,
-      routes: [{ name: 'SuccessScreen' }],
-    });
+    this.props.navigation.navigate('DriverTicketScreen');
   };
 
   render() {
@@ -84,7 +80,7 @@ class DriverDetails extends Component {
                 </View>
                 <View style={{ marginBottom: 5 }}>
                   <Text style={styles.userCompany}>
-                    ({driver.driver_company_name})
+                    ({driver.company_name})
                   </Text>
                 </View>
                 <View>

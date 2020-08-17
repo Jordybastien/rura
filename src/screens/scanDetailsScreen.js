@@ -7,6 +7,7 @@ import {
   Dimensions,
   ImageBackground,
   TextInput,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {
   blue,

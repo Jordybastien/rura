@@ -12,6 +12,7 @@ import ScanScreen from '../screens/cameraScreen';
 import ScanDetailsScreen from '../screens/scanDetailsScreen';
 import DriverDetailsScreen from '../screens/driverDetailsScreen';
 import SuccessScreen from '../screens/successScreen';
+import DriverTicketScreen from '../screens/driverTicketScreen';
 
 const StackNavigatorConfig = {
   headerMode: 'screen',
@@ -98,6 +99,17 @@ const StackConfig = {
     component: SuccessScreen,
     options: { headerShown: false },
   },
+  DriverTicketScreen: {
+    name: 'DriverTicketScreen',
+    component: DriverTicketScreen,
+    options: {
+      headerShown: true,
+      headerStyle: {
+        backgroundColor: blue,
+      },
+      headerTintColor: white,
+    },
+  },
 };
 const Stack = createStackNavigator();
 
@@ -171,6 +183,19 @@ const StackNavigator = () => {
       />
       <Stack.Screen {...StackConfig['DriverDetailsScreen']} />
       <Stack.Screen {...StackConfig['SuccessScreen']} />
+      <Stack.Screen
+        {...StackConfig['DriverTicketScreen']}
+        options={{
+          headerTitle: () => <LogoTitle isHome={false} />,
+          headerStyle: {
+            backgroundColor: blue,
+            shadowColor: 'transparent',
+            elevation: 0,
+          },
+          headerTintColor: white,
+          headerBackTitle: 'Back',
+        }}
+      />
     </Stack.Navigator>
   );
 };
