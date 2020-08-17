@@ -16,21 +16,74 @@ import {
   red,
   green,
   lowGray,
+  rose,
+  lowRose,
+  anotherRed,
 } from '../utils/colors';
-import { AntDesign, Octicons, Ionicons } from '@expo/vector-icons';
+import { AntDesign, Octicons, Ionicons, FontAwesome } from '@expo/vector-icons';
+import Toast from 'react-native-toast-message';
+import { Spinner } from 'native-base';
+import { handleSearchDriver } from '../actions/driver';
+import { connect } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
 
 class ScanDetailsScreen extends Component {
-  state = {};
+  state = {
+    selIdNumber: '',
+    loading: false,
+    showError: false,
+  };
 
   handleSearchDriver = () => {
-    //   TODO: Handle search driver
-    this.props.navigation.navigate('DriverDetailsScreen');
+    this.setState({ showError: false });
+    let toSend;
+    let response = true;
+    let errorMessage = '';
+
+    const { isScan, idNumber } = this.props.route.params;
+    const { selIdNumber } = this.state;
+    if (isScan) {
+      toSend = idNumber;
+    } else {
+      if (!selIdNumber) {
+        response = false;
+        errorMessage = 'ID Number is required';
+      } else if (selIdNumber.length < 16 || selIdNumber.length > 16) {
+        response = false;
+        errorMessage = 'ID Number can not be less than 16';
+      } else {
+        toSend = selIdNumber;
+      }
+    }
+
+    if (response) {
+      this.props
+        .dispatch(handleSearchDriver({ driving_license: toSend }))
+        .then((res) => {
+          this.setState({ loading: false, showError: false });
+          if (res.type === 'SEARCH_DRIVER') {
+            this.props.navigation.navigate('DriverDetailsScreen');
+          } else {
+            Toast.show({
+              text1: 'Warning',
+              text2: res.error,
+              type: 'error',
+            });
+            this.setState({ showError: true });
+          }
+        });
+    } else
+      Toast.show({
+        text1: 'Warning',
+        text2: errorMessage,
+        type: 'error',
+      });
   };
   render() {
-    
     const { isScan, idNumber } = this.props.route.params;
+
+    const { selIdNumber, loading, showError } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.headerContent}>
@@ -54,11 +107,34 @@ class ScanDetailsScreen extends Component {
                       style={styles.txtBoxInput}
                       value={idNumber}
                       editable={!isScan}
+                      maxLength={16}
                       placeholder="0000000000000000"
+                      onChangeText={(selIdNumber) =>
+                        this.setState({ selIdNumber })
+                      }
                     />
                   </View>
                 </View>
               </View>
+              {showError && (
+                <View style={styles.errorContainer}>
+                  <View style={styles.errorIconContainer}>
+                    <FontAwesome
+                      name="times-circle-o"
+                      size={30}
+                      color={anotherRed}
+                    />
+                  </View>
+                  <View style={styles.errorTextContainer}>
+                    <View>
+                      <Text style={styles.errorTitle}>Error</Text>
+                    </View>
+                    <View>
+                      <Text style={styles.errorLabel}>Driver not found</Text>
+                    </View>
+                  </View>
+                </View>
+              )}
             </View>
             <View style={styles.btnContainer}>
               <TouchableOpacity
@@ -68,8 +144,14 @@ class ScanDetailsScreen extends Component {
                 <View
                   style={[styles.buttonContainer, { backgroundColor: green }]}
                 >
-                  <Octicons name="thumbsup" size={30} color={white} />
-                  <Text style={styles.btnLabel}>Verify</Text>
+                  {loading ? (
+                    <Spinner color={white} />
+                  ) : (
+                    <View>
+                      <Octicons name="thumbsup" size={30} color={white} />
+                      <Text style={styles.btnLabel}>Verify</Text>
+                    </View>
+                  )}
                 </View>
               </TouchableOpacity>
               {isScan && (
@@ -102,7 +184,7 @@ class ScanDetailsScreen extends Component {
   }
 }
 
-export default ScanDetailsScreen;
+export default connect()(ScanDetailsScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -205,5 +287,31 @@ const styles = StyleSheet.create({
   },
   notScanBtn: {
     width: width - 100,
+  },
+  errorContainer: {
+    backgroundColor: lowRose,
+    borderColor: rose,
+    borderWidth: 1,
+    flex: 1,
+    // justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  errorIconContainer: {
+    flex: 1,
+  },
+  errorTextContainer: {
+    flex: 3,
+  },
+  errorTitle: {
+    fontFamily: 'bold',
+    color: blue,
+    fontSize: 18,
+  },
+  errorLabel: {
+    fontFamily: 'regular',
+    color: blue,
   },
 });

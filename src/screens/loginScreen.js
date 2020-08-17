@@ -41,7 +41,6 @@ class LoginScreen extends Component {
       this.props.dispatch(handleUserLogin(data)).then((res) => {
         this.setState({ loading: false });
         if (res.type !== 'LOG_ERROR') {
-          this.setState({ spinner: false });
           this.props.navigation.reset({
             index: 0,
             routes: [{ name: 'HomeScreen' }],
@@ -133,6 +132,7 @@ class LoginScreen extends Component {
                         placeholder="test@test.com"
                         onFocus={() => this.setState({ showSvg: false })}
                         onBlur={() => this.setState({ showSvg: true })}
+                        autoCapitalize="none"
                       />
                     </View>
                   </View>
@@ -151,6 +151,7 @@ class LoginScreen extends Component {
                         onBlur={() => this.setState({ showSvg: true })}
                         secureTextEntry={true}
                         placeholder="********"
+                        autoCapitalize="none"
                       />
                     </View>
                   </View>

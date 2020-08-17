@@ -26,18 +26,22 @@ export default function App(props) {
     setScanned(true);
 
     Vibration.vibrate(3000);
-    props.navigation.reset({
-      index: 0,
-      routes: [
-        {
-          name: 'ScanDetailsScreen',
+    // props.navigation.reset({
+    //   index: 0,
+    //   routes: [
+    //     {
+    //       name: 'ScanDetailsScreen',
 
-          params: {
-            isScan: true,
-            idNumber: data.split(' ').join('').substr(0, 16),
-          },
-        },
-      ],
+    //       params: {
+    //         isScan: true,
+    //         idNumber: data.split(' ').join('').substr(0, 16),
+    //       },
+    //     },
+    //   ],
+    // });
+    props.navigation.navigate('ScanDetailsScreen', {
+      isScan: true,
+      idNumber: data.split(' ').join('').substr(0, 16),
     });
   };
 

@@ -5,3 +5,6 @@ export const lowGray = '#70707030';
 export const orange = '#f2910a';
 export const red = '#fc3a52';
 export const green = '#7bc74d';
+export const rose = '#ffccc7';
+export const lowRose = '#fff2f0';
+export const anotherRed = '#ff4d4f';

@@ -29,6 +29,7 @@ import {
   Entypo,
   Feather,
 } from '@expo/vector-icons';
+import { connect } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
 
@@ -44,6 +45,7 @@ class DriverDetails extends Component {
   };
 
   render() {
+    const { driver } = this.props;
     return (
       <View style={styles.container}>
         <ImageBackground
@@ -52,7 +54,9 @@ class DriverDetails extends Component {
         >
           <View style={styles.imageHolder}>
             <Image
-              source={require('../../assets/pic.png')}
+              source={{
+                uri: `http://46.101.182.152:9003/Drivers/${driver.driver_photo_name}`,
+              }}
               style={styles.userImage}
             />
             <View style={styles.backBtnContainer}>
@@ -74,13 +78,17 @@ class DriverDetails extends Component {
             <View style={styles.userInfoHolder}>
               <View style={styles.infoHeader}>
                 <View style={{ marginBottom: 5 }}>
-                  <Text style={styles.userNameLabel}>User Name</Text>
+                  <Text style={styles.userNameLabel}>
+                    {driver.driver_first_name} {driver.driver_last_name}
+                  </Text>
                 </View>
                 <View style={{ marginBottom: 5 }}>
-                  <Text style={styles.userCompany}>(Company Name)</Text>
+                  <Text style={styles.userCompany}>
+                    ({driver.driver_company_name})
+                  </Text>
                 </View>
                 <View>
-                  <Text style={styles.userNID}>NID: 1234567890123456</Text>
+                  <Text style={styles.userNID}>NID: {driver.driver_nid}</Text>
                 </View>
               </View>
               <View style={styles.infoFooter}>
@@ -95,9 +103,11 @@ class DriverDetails extends Component {
                     </View>
                     <Text style={styles.iconLabel}>License Details</Text>
                     <View style={styles.licenseContainer}>
-                      <Text style={styles.licenseLabel}>Categories: A,B,C</Text>
                       <Text style={styles.licenseLabel}>
-                        NO: 1234567890123456
+                        Categories: {driver.driver_category}
+                      </Text>
+                      <Text style={styles.licenseLabel}>
+                        NO: {driver.driver_license}
                       </Text>
                     </View>
                   </View>
@@ -110,7 +120,9 @@ class DriverDetails extends Component {
                     </View>
                     <Text style={styles.iconLabel}>DOB</Text>
                     <View style={styles.licenseContainer}>
-                      <Text style={styles.licenseLabel}>01/01/1990</Text>
+                      <Text style={styles.licenseLabel}>
+                        {driver.driver_dob}
+                      </Text>
                     </View>
                   </View>
                   <View style={styles.footerSideFooter}></View>
@@ -119,10 +131,7 @@ class DriverDetails extends Component {
             </View>
           </View>
           <View style={styles.footerButtons}>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={this.handleTicket}
-            >
+            <TouchableOpacity style={styles.btn} onPress={this.handleTicket}>
               <FontAwesome name="ticket" size={30} color={blue} />
               <Text style={styles.btnLabel}>Ticket</Text>
             </TouchableOpacity>
@@ -136,8 +145,13 @@ class DriverDetails extends Component {
     );
   }
 }
+const mapStateToProps = ({ driver }) => {
+  return {
+    driver,
+  };
+};
 
-export default DriverDetails;
+export default connect(mapStateToProps)(DriverDetails);
 
 const styles = StyleSheet.create({
   container: { flex: 1 },

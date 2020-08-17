@@ -5,6 +5,7 @@ import companies from './company';
 import companyCategories from './companyCategories';
 import companyOffences from './companyOffences';
 import authedUser from './authedUser';
+import driver from './driver';
 
 export default combineReducers({
   loading,
@@ -13,4 +14,5 @@ export default combineReducers({
   companyCategories,
   companyOffences,
   authedUser,
+  driver,
 });
