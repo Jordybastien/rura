@@ -13,6 +13,7 @@ import ScanDetailsScreen from '../screens/scanDetailsScreen';
 import DriverDetailsScreen from '../screens/driverDetailsScreen';
 import SuccessScreen from '../screens/successScreen';
 import DriverTicketScreen from '../screens/driverTicketScreen';
+import DriverInvoiceScreen from '../screens/driverInvoiceScreen';
 
 const StackNavigatorConfig = {
   headerMode: 'screen',
@@ -110,6 +111,18 @@ const StackConfig = {
       headerTintColor: white,
     },
   },
+  DriverInvoiceScreen: {
+    name: 'DriverInvoiceScreen',
+    component: DriverInvoiceScreen,
+    options: {
+      headerShown: true,
+      headerStyle: {
+        backgroundColor: blue,
+      },
+      headerTintColor: white,
+      headerLeft: null,
+    },
+  },
 };
 const Stack = createStackNavigator();
 
@@ -185,6 +198,19 @@ const StackNavigator = () => {
       <Stack.Screen {...StackConfig['SuccessScreen']} />
       <Stack.Screen
         {...StackConfig['DriverTicketScreen']}
+        options={{
+          headerTitle: () => <LogoTitle isHome={false} />,
+          headerStyle: {
+            backgroundColor: blue,
+            shadowColor: 'transparent',
+            elevation: 0,
+          },
+          headerTintColor: white,
+          headerBackTitle: 'Back',
+        }}
+      />
+      <Stack.Screen
+        {...StackConfig['DriverInvoiceScreen']}
         options={{
           headerTitle: () => <LogoTitle isHome={false} />,
           headerStyle: {

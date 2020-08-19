@@ -155,7 +155,7 @@ class DriverTicketScreen extends Component {
       <View style={styles.container}>
         <View style={styles.headerContent}>
           <View style={styles.headerText}>
-            <Text style={styles.headerLabel}>Company Invoice</Text>
+            <Text style={styles.headerLabel}>Driver Invoice</Text>
           </View>
         </View>
         <View style={styles.mainContent}>

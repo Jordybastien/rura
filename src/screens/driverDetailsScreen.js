@@ -40,6 +40,10 @@ class DriverDetails extends Component {
     this.props.navigation.navigate('DriverTicketScreen');
   };
 
+  handleInvoice = () => {
+    this.props.navigation.navigate('DriverInvoiceScreen');
+  };
+
   render() {
     const { driver } = this.props;
     return (
@@ -58,10 +62,10 @@ class DriverDetails extends Component {
             <View style={styles.backBtnContainer}>
               <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                 {Platform.OS === 'android' ? (
-                  <Feather name="arrow-left" size={24} color={white} />
+                  <Feather name="arrow-left" size={24} color={blue} />
                 ) : (
                   <View style={styles.backBtn}>
-                    <Entypo name="chevron-thin-left" size={24} color={white} />
+                    <Entypo name="chevron-thin-left" size={24} color={blue} />
                     <View>
                       <Text style={styles.backLabel}>Back</Text>
                     </View>
@@ -131,7 +135,7 @@ class DriverDetails extends Component {
               <FontAwesome name="ticket" size={30} color={blue} />
               <Text style={styles.btnLabel}>Ticket</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity style={styles.btn} onPress={this.handleInvoice}>
               <FontAwesome5 name="file-invoice" size={30} color={blue} />
               <Text style={styles.btnLabel}>Invoice</Text>
             </TouchableOpacity>
@@ -280,7 +284,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   backLabel: {
-    color: white,
+    color: blue,
     fontSize: 18,
   },
 });
