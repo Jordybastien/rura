@@ -37,7 +37,7 @@ class ScanDetailsScreen extends Component {
   };
 
   handleSearchDriver = () => {
-    this.setState({ showError: false });
+    this.setState({ showError: false, loading: true });
     let toSend;
     let response = true;
     let errorMessage = '';
@@ -74,12 +74,14 @@ class ScanDetailsScreen extends Component {
             this.setState({ showError: true });
           }
         });
-    } else
+    } else {
+      this.setState({ loading: false });
       Toast.show({
         text1: 'Warning',
         text2: errorMessage,
         type: 'error',
       });
+    }
   };
   render() {
     const { isScan, idNumber } = this.props.route.params;

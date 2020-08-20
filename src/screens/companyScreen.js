@@ -9,9 +9,9 @@ import {
   Button,
   ScrollView,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from 'react-native';
 import { blue, white, gray, orange, lowGray } from '../utils/colors';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
 import {
   Octicons,
@@ -226,7 +226,12 @@ class CompanyScreen extends Component {
                       <TouchableOpacity
                         onPress={() => this.setState({ isModalVisible: true })}
                       >
-                        <Text style={styles.txtLabel}>Select Offence(s)</Text>
+                        <Text style={styles.txtLabel}>
+                          {selectedItems.length === 0
+                            ? 'Select Offence(s)'
+                            : `${selectedItems.length} offence
+                            `}
+                        </Text>
                       </TouchableOpacity>
                       <MultipleSelect
                         isModalVisible={isModalVisible}

@@ -177,7 +177,12 @@ class DriverTicketScreen extends Component {
                       <TouchableOpacity
                         onPress={() => this.setState({ isModalVisible: true })}
                       >
-                        <Text style={styles.txtLabel}>Select Offence(s)</Text>
+                        <Text style={styles.txtLabel}>
+                          {selectedItems.length === 0
+                            ? 'Select Offence(s)'
+                            : `${selectedItems.length} offence
+                            `}
+                        </Text>
                       </TouchableOpacity>
                       <MultipleSelect
                         isModalVisible={isModalVisible}
@@ -201,7 +206,10 @@ class DriverTicketScreen extends Component {
                         onPress={() => this.setState({ isDocsVisible: true })}
                       >
                         <Text style={styles.txtLabel}>
-                          Select confiscated Document(s)
+                          {selectedDocs.length === 0
+                            ? 'Select confiscated Document(s)'
+                            : `${selectedDocs.length} documents
+                            `}
                         </Text>
                       </TouchableOpacity>
                       <MultipleDocsSelect
