@@ -88,101 +88,103 @@ class ScanDetailsScreen extends Component {
 
     const { selIdNumber, loading, showError } = this.state;
     return (
-      <View style={styles.container}>
-        <View style={styles.headerContent}>
-          <View style={styles.headerText}>
-            <Text style={styles.headerLabel}>Driver Details</Text>
-          </View>
-        </View>
-        <View style={styles.mainContent}>
-          <ImageBackground
-            source={require('../../assets/bg-3.png')}
-            style={styles.mainContent}
-          >
-            <View style={styles.txtBoxContainer}>
-              <View style={styles.txtBoxContWrapper}>
-                <View style={styles.txtBoxCont}>
-                  <View style={styles.txtLabelCont}>
-                    <Text style={styles.txtLabel}>ID Number</Text>
-                  </View>
-                  <View style={styles.txtBoxHolder}>
-                    <TextInput
-                      style={styles.txtBoxInput}
-                      value={idNumber}
-                      editable={!isScan}
-                      maxLength={16}
-                      placeholder="0000000000000000"
-                      onChangeText={(selIdNumber) =>
-                        this.setState({ selIdNumber })
-                      }
-                    />
-                  </View>
-                </View>
-              </View>
-              {showError && (
-                <View style={styles.errorContainer}>
-                  <View style={styles.errorIconContainer}>
-                    <FontAwesome
-                      name="times-circle-o"
-                      size={30}
-                      color={anotherRed}
-                    />
-                  </View>
-                  <View style={styles.errorTextContainer}>
-                    <View>
-                      <Text style={styles.errorTitle}>Error</Text>
-                    </View>
-                    <View>
-                      <Text style={styles.errorLabel}>Driver not found</Text>
-                    </View>
-                  </View>
-                </View>
-              )}
+      <KeyboardAvoidingView style={styles.container} behavior="height">
+        <View style={styles.container}>
+          <View style={styles.headerContent}>
+            <View style={styles.headerText}>
+              <Text style={styles.headerLabel}>Driver Details</Text>
             </View>
-            <View style={styles.btnContainer}>
-              <TouchableOpacity
-                style={[styles.buttonHolder, !isScan && styles.notScanBtn]}
-                onPress={this.handleSearchDriver}
-              >
-                <View
-                  style={[styles.buttonContainer, { backgroundColor: green }]}
-                >
-                  {loading ? (
-                    <Spinner color={white} />
-                  ) : (
-                    <View>
-                      <Octicons name="thumbsup" size={30} color={white} />
-                      <Text style={styles.btnLabel}>Verify</Text>
+          </View>
+          <View style={styles.mainContent}>
+            <ImageBackground
+              source={require('../../assets/bg-3.png')}
+              style={styles.mainContent}
+            >
+              <View style={styles.txtBoxContainer}>
+                <View style={styles.txtBoxContWrapper}>
+                  <View style={styles.txtBoxCont}>
+                    <View style={styles.txtLabelCont}>
+                      <Text style={styles.txtLabel}>ID Number</Text>
                     </View>
-                  )}
+                    <View style={styles.txtBoxHolder}>
+                      <TextInput
+                        style={styles.txtBoxInput}
+                        value={idNumber}
+                        editable={!isScan}
+                        maxLength={16}
+                        placeholder="0000000000000000"
+                        onChangeText={(selIdNumber) =>
+                          this.setState({ selIdNumber })
+                        }
+                      />
+                    </View>
+                  </View>
                 </View>
-              </TouchableOpacity>
-              {isScan && (
+                {showError && (
+                  <View style={styles.errorContainer}>
+                    <View style={styles.errorIconContainer}>
+                      <FontAwesome
+                        name="times-circle-o"
+                        size={30}
+                        color={anotherRed}
+                      />
+                    </View>
+                    <View style={styles.errorTextContainer}>
+                      <View>
+                        <Text style={styles.errorTitle}>Error</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.errorLabel}>Driver not found</Text>
+                      </View>
+                    </View>
+                  </View>
+                )}
+              </View>
+              <View style={styles.btnContainer}>
                 <TouchableOpacity
-                  style={styles.buttonHolder}
-                  onPress={() =>
-                    this.props.navigation.reset({
-                      index: 0,
-                      routes: [
-                        {
-                          name: 'DriverScreen',
-                        },
-                      ],
-                    })
-                  }
+                  style={[styles.buttonHolder, !isScan && styles.notScanBtn]}
+                  onPress={this.handleSearchDriver}
                 >
                   <View
-                    style={[styles.buttonContainer, { backgroundColor: red }]}
+                    style={[styles.buttonContainer, { backgroundColor: green }]}
                   >
-                    <Ionicons name="md-refresh" size={30} color={white} />
-                    <Text style={styles.btnLabel}>Retake</Text>
+                    {loading ? (
+                      <Spinner color={white} />
+                    ) : (
+                      <View>
+                        <Octicons name="thumbsup" size={30} color={white} />
+                        <Text style={styles.btnLabel}>Verify</Text>
+                      </View>
+                    )}
                   </View>
                 </TouchableOpacity>
-              )}
-            </View>
-          </ImageBackground>
+                {isScan && (
+                  <TouchableOpacity
+                    style={styles.buttonHolder}
+                    onPress={() =>
+                      this.props.navigation.reset({
+                        index: 0,
+                        routes: [
+                          {
+                            name: 'DriverScreen',
+                          },
+                        ],
+                      })
+                    }
+                  >
+                    <View
+                      style={[styles.buttonContainer, { backgroundColor: red }]}
+                    >
+                      <Ionicons name="md-refresh" size={30} color={white} />
+                      <Text style={styles.btnLabel}>Retake</Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+              </View>
+            </ImageBackground>
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

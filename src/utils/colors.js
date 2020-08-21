@@ -8,3 +8,4 @@ export const green = '#7bc74d';
 export const rose = '#ffccc7';
 export const lowRose = '#fff2f0';
 export const anotherRed = '#ff4d4f';
+export const lowBlue = '#3da9fc';

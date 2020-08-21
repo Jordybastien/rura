@@ -9,6 +9,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Image,
+  ScrollView,
 } from 'react-native';
 import {
   blue,
@@ -21,8 +22,17 @@ import {
   rose,
   lowRose,
   anotherRed,
+  lowBlue,
 } from '../utils/colors';
-import { AntDesign, Octicons, Ionicons, FontAwesome } from '@expo/vector-icons';
+import {
+  AntDesign,
+  Octicons,
+  Ionicons,
+  FontAwesome,
+  FontAwesome5,
+  Entypo,
+  Fontisto,
+} from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
 import { Spinner } from 'native-base';
 import { handleSearchDriver } from '../actions/driver';
@@ -68,11 +78,222 @@ class DriverInvoiceScreen extends Component {
             source={require('../../assets/bg-3.png')}
             style={[styles.mainContent, { paddingTop: 20 }]}
           >
-            <View style={styles.invoicesContainer}>
-              <View style={styles.invoiceCard}>
-                <Text>Invoice</Text>
+            <ScrollView>
+              <View style={styles.invoicesContainer}>
+                <View style={styles.invoiceCard}>
+                  <View style={styles.invoiceHeader}>
+                    <View style={styles.arrangeContent}>
+                      <FontAwesome5
+                        name="file-invoice"
+                        size={18}
+                        color={blue}
+                      />
+                      <Text style={styles.invoiceNumberLabel}> #104578909</Text>
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                      <View style={[styles.statusContainer, styles.pending]}>
+                        <Text style={styles.statusLabel}>Pending</Text>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.invoiceFooter}>
+                    <View style={styles.footerContent}>
+                      <View style={styles.footerIcon}>
+                        <FontAwesome name="money" size={24} color={white} />
+                      </View>
+                      <View>
+                        <Text style={styles.amountLabel}>Amount</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.amountValue}>RWF 100,000</Text>
+                      </View>
+                    </View>
+                    <View style={styles.footerContent}>
+                      <View style={styles.footerIcon}>
+                        <Entypo name="location-pin" size={24} color={white} />
+                      </View>
+                      <View>
+                        <Text style={styles.amountLabel}>Location</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.amountValue}>Nyamirambo</Text>
+                      </View>
+                    </View>
+                    <View style={styles.footerContent}>
+                      <View style={styles.footerIcon}>
+                        <Fontisto name="date" size={24} color={white} />
+                      </View>
+                      <View>
+                        <Text style={styles.amountLabel}>Date</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.amountValue}>01 Jun 2020</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                {/* Another Card */}
+                <View style={styles.invoiceCard}>
+                  <View style={styles.invoiceHeader}>
+                    <View style={styles.arrangeContent}>
+                      <FontAwesome5
+                        name="file-invoice"
+                        size={18}
+                        color={blue}
+                      />
+                      <Text style={styles.invoiceNumberLabel}> #104578909</Text>
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                      <View style={[styles.statusContainer, styles.activated]}>
+                        <Text style={styles.statusLabel}>Pending</Text>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.invoiceFooter}>
+                    <View style={styles.footerContent}>
+                      <View style={styles.footerIcon}>
+                        <FontAwesome name="money" size={24} color={white} />
+                      </View>
+                      <View>
+                        <Text style={styles.amountLabel}>Amount</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.amountValue}>RWF 100,000</Text>
+                      </View>
+                    </View>
+                    <View style={styles.footerContent}>
+                      <View style={styles.footerIcon}>
+                        <Entypo name="location-pin" size={24} color={white} />
+                      </View>
+                      <View>
+                        <Text style={styles.amountLabel}>Location</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.amountValue}>Nyamirambo</Text>
+                      </View>
+                    </View>
+                    <View style={styles.footerContent}>
+                      <View style={styles.footerIcon}>
+                        <Fontisto name="date" size={24} color={white} />
+                      </View>
+                      <View>
+                        <Text style={styles.amountLabel}>Date</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.amountValue}>01 Jun 2020</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                {/* Another Card */}
+                <View style={styles.invoiceCard}>
+                  <View style={styles.invoiceHeader}>
+                    <View style={styles.arrangeContent}>
+                      <FontAwesome5
+                        name="file-invoice"
+                        size={18}
+                        color={blue}
+                      />
+                      <Text style={styles.invoiceNumberLabel}> #104578909</Text>
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                      <View style={[styles.statusContainer, styles.deActivated]}>
+                        <Text style={styles.statusLabel}>Pending</Text>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.invoiceFooter}>
+                    <View style={styles.footerContent}>
+                      <View style={styles.footerIcon}>
+                        <FontAwesome name="money" size={24} color={white} />
+                      </View>
+                      <View>
+                        <Text style={styles.amountLabel}>Amount</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.amountValue}>RWF 100,000</Text>
+                      </View>
+                    </View>
+                    <View style={styles.footerContent}>
+                      <View style={styles.footerIcon}>
+                        <Entypo name="location-pin" size={24} color={white} />
+                      </View>
+                      <View>
+                        <Text style={styles.amountLabel}>Location</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.amountValue}>Nyamirambo</Text>
+                      </View>
+                    </View>
+                    <View style={styles.footerContent}>
+                      <View style={styles.footerIcon}>
+                        <Fontisto name="date" size={24} color={white} />
+                      </View>
+                      <View>
+                        <Text style={styles.amountLabel}>Date</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.amountValue}>01 Jun 2020</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                {/* Another Card */}
+                <View style={styles.invoiceCard}>
+                  <View style={styles.invoiceHeader}>
+                    <View style={styles.arrangeContent}>
+                      <FontAwesome5
+                        name="file-invoice"
+                        size={18}
+                        color={blue}
+                      />
+                      <Text style={styles.invoiceNumberLabel}> #104578909</Text>
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                      <View style={[styles.statusContainer, styles.pending]}>
+                        <Text style={styles.statusLabel}>Pending</Text>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.invoiceFooter}>
+                    <View style={styles.footerContent}>
+                      <View style={styles.footerIcon}>
+                        <FontAwesome name="money" size={24} color={white} />
+                      </View>
+                      <View>
+                        <Text style={styles.amountLabel}>Amount</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.amountValue}>RWF 100,000</Text>
+                      </View>
+                    </View>
+                    <View style={styles.footerContent}>
+                      <View style={styles.footerIcon}>
+                        <Entypo name="location-pin" size={24} color={white} />
+                      </View>
+                      <View>
+                        <Text style={styles.amountLabel}>Location</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.amountValue}>Nyamirambo</Text>
+                      </View>
+                    </View>
+                    <View style={styles.footerContent}>
+                      <View style={styles.footerIcon}>
+                        <Fontisto name="date" size={24} color={white} />
+                      </View>
+                      <View>
+                        <Text style={styles.amountLabel}>Date</Text>
+                      </View>
+                      <View>
+                        <Text style={styles.amountValue}>01 Jun 2020</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                {/* Another Card */}
               </View>
-            </View>
+            </ScrollView>
           </ImageBackground>
         </View>
       </View>
@@ -229,8 +450,8 @@ const styles = StyleSheet.create({
   invoiceCard: {
     borderBottomColor: blue,
     borderBottomWidth: 7,
-    width: width - 80,
-    height: 130,
+    width: width - 50,
+    height: 170,
     backgroundColor: white,
     borderRadius: 15,
     shadowColor: '#000',
@@ -242,5 +463,69 @@ const styles = StyleSheet.create({
     shadowRadius: 6.27,
 
     elevation: 10,
+    padding: 5,
+    marginBottom: 18,
+  },
+  invoiceHeader: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  invoiceFooter: {
+    flex: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 7,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  invoiceNumberLabel: {
+    fontFamily: 'bold',
+    color: orange,
+    fontSize: 18,
+  },
+  arrangeContent: { flex: 2, flexDirection: 'row', alignItems: 'center' },
+  statusContainer: {
+    padding: 6,
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  pending: {
+    backgroundColor: '#e6f6ff',
+    borderColor: '#90d5ff',
+  },
+  activated: {
+    backgroundColor: '#f6ffec',
+    borderColor: '#b7ea8f',
+  },
+  deActivated: {
+    backgroundColor: '#fff2ef',
+    borderColor: '#ffccc6',
+  },
+  statusLabel: { fontFamily: 'regular', fontSize: 13 },
+  footerIcon: {
+    backgroundColor: blue,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+  },
+  amountLabel: {
+    color: gray,
+    fontFamily: 'regular',
+    fontSize: 13,
+  },
+  amountValue: {
+    color: blue,
+    fontFamily: 'bold',
+    paddingTop: 10,
+    fontSize: 13,
+  },
+  footerContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
