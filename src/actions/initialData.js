@@ -11,12 +11,13 @@ import {
 import { hideLoading, showLoading } from './loading';
 import { getDocuments } from './documents';
 import { fetchDocuments } from '../services/documents';
+import { getDriverOffences } from './driver';
 
 const getInitialData = async () => {
   const [
     companies,
     companyCategories,
-    companyOffences,
+    driverOffences,
     documents,
   ] = await Promise.all([
     fetchCompanies(),
@@ -28,7 +29,7 @@ const getInitialData = async () => {
   return {
     companies,
     companyCategories,
-    companyOffences,
+    driverOffences,
     documents,
   };
 };
@@ -37,10 +38,10 @@ export const handleInitialData = () => {
   return async (dispatch) => {
     dispatch(showLoading());
     return getInitialData()
-      .then(({ companies, companyCategories, companyOffences, documents }) => {
+      .then(({ companies, companyCategories, driverOffences, documents }) => {
         dispatch(getCompanies(companies));
         // dispatch(getCompanyCategories(companyCategories));
-        // dispatch(getCompanyOffences(companyOffences));
+        dispatch(getDriverOffences(driverOffences));
         dispatch(getDocuments(documents));
         dispatch(hideLoading());
       })

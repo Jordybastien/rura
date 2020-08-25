@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
+  Platform,
 } from 'react-native';
 import { logoutUser } from '../actions/authedUser';
 import { deleteToken } from '../utils/storage';
@@ -32,7 +33,9 @@ class AccountScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.headerContent}>
-          <View style={styles.headerText}></View>
+          <View style={styles.headerText}>
+            <Text style={styles.headerLabel}>Account</Text>
+          </View>
         </View>
         <View style={styles.mainContent}>
           <ImageBackground
@@ -95,14 +98,14 @@ const styles = StyleSheet.create({
     width: width - 50,
   },
   mainContent: {
-    height: height - 200,
+    height: Platform.OS === 'ios' ? height - 150 : height - 180,
     backgroundColor: white,
     width: width,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingTop: 10,
+    // paddingTop: 30,
     paddingBottom: 100,
   },
   headerLabel: {
@@ -120,6 +123,18 @@ const styles = StyleSheet.create({
     backgroundColor: white,
     paddingTop: 20,
     paddingBottom: 20,
+    // borderBottomLeftRadius: 30,
+    // borderBottomRightRadius: 30,
+    borderRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10,
   },
   menuContent: {
     flex: 1,
@@ -140,5 +155,10 @@ const styles = StyleSheet.create({
     fontFamily: 'regular',
     color: gray,
     fontSize: 20,
+  },
+  headerText: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

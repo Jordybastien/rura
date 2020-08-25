@@ -1,4 +1,8 @@
-import { SEARCH_DRIVER, RECORD_DRIVER } from './actionTypes';
+import {
+  SEARCH_DRIVER,
+  RECORD_DRIVER,
+  FETCH_DRIVER_OFFENCES,
+} from './actionTypes';
 import { findDriver, recordDriverTicket } from '../services/driver';
 import { logError } from './error';
 
@@ -13,6 +17,13 @@ export const recordDriver = (driver) => {
   return {
     type: RECORD_DRIVER,
     driver,
+  };
+};
+
+export const getDriverOffences = (driverOffences) => {
+  return {
+    type: FETCH_DRIVER_OFFENCES,
+    driverOffences,
   };
 };
 

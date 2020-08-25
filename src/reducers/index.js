@@ -7,6 +7,7 @@ import companyOffences from './companyOffences';
 import authedUser from './authedUser';
 import driver from './driver';
 import documents from './documents';
+import driverOffences from './driverOffences';
 
 export default combineReducers({
   loading,
@@ -17,4 +18,5 @@ export default combineReducers({
   authedUser,
   driver,
   documents,
+  driverOffences,
 });

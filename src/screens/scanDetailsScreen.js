@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerLabel: {
-    color: orange,
+    color: white,
     fontFamily: 'bold',
     fontSize: 18,
   },

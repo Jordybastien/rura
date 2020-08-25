@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   headerLabel: {
-    color: orange,
+    color: white,
     fontFamily: 'bold',
     fontSize: 18,
   },

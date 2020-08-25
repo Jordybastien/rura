@@ -3,11 +3,8 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Dimensions,
   ImageBackground,
-  TextInput,
-  KeyboardAvoidingView,
   Image,
   ScrollView,
 } from 'react-native';
@@ -16,26 +13,16 @@ import {
   white,
   gray,
   orange,
-  red,
-  green,
-  lowGray,
   rose,
   lowRose,
-  anotherRed,
-  lowBlue,
+  moreGray,
 } from '../utils/colors';
 import {
-  AntDesign,
-  Octicons,
-  Ionicons,
   FontAwesome,
   FontAwesome5,
   Entypo,
   Fontisto,
 } from '@expo/vector-icons';
-import Toast from 'react-native-toast-message';
-import { Spinner } from 'native-base';
-import { handleSearchDriver } from '../actions/driver';
 import { connect } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
@@ -148,9 +135,28 @@ class DriverInvoiceScreen extends Component {
                       <FontAwesome5
                         name="file-invoice"
                         size={18}
-                        color={blue}
+                        color={orange}
                       />
-                      <Text style={styles.invoiceNumberLabel}> #104578909</Text>
+                      <Text
+                        style={[
+                          styles.invoiceNumberLabel,
+                          { color: blue, fontSize: 15 },
+                        ]}
+                      >
+                        Invoice Number:
+                      </Text>
+                      <Text
+                        style={[
+                          styles.invoiceNumberLabel,
+                          {
+                            fontFamily: 'regular',
+                            fontSize: 15,
+                            color: moreGray,
+                          },
+                        ]}
+                      >
+                        104578909
+                      </Text>
                     </View>
                     <View style={{ flex: 1, alignItems: 'flex-end' }}>
                       <View style={[styles.statusContainer, styles.activated]}>
@@ -595,6 +601,6 @@ const styles = StyleSheet.create({
   },
   newInvoiceValue: {
     fontFamily: 'regular',
-    color: gray,
+    color: moreGray,
   },
 });

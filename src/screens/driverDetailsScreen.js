@@ -116,13 +116,12 @@ class DriverDetails extends Component {
                 <View style={styles.footerSide}>
                   <View style={styles.footerSideHeader}>
                     <View style={styles.footerIcon}>
-                      <Fontisto name="date" size={24} color={orange} />
+                      <FontAwesome5 name="hashtag" size={24} color={orange} />
                     </View>
-                    <Text style={styles.iconLabel}>DOB</Text>
+                    <Text style={styles.iconLabel}>Driver Code</Text>
                     <View style={styles.licenseContainer}>
                       <Text style={styles.licenseLabel}>
-                        {driver.driver_dob}
-                        {/* TODO: Driver RURA Number */}
+                        {driver.driver_code}
                       </Text>
                     </View>
                   </View>

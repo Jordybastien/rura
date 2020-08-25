@@ -108,6 +108,15 @@ class DriverTicketScreen extends Component {
     if (!plate) {
       response = false;
       errorMessage = 'Plate Number is required';
+    } else if (
+      plate.split(' ').join('').length < 7 ||
+      plate.split(' ').join('').length > 7 ||
+      !/^[a-zA-Z]+$/.test(plate.substr(0, 3)) ||
+      !/^\d+$/.test(plate.substr(3, 3)) ||
+      !/^[a-zA-Z]+$/.test(plate.substr(6, 1))
+    ) {
+      response = false;
+      errorMessage = 'Invalid Plate Number';
     }
     if (selectedDocs.length === 0) {
       response = false;
@@ -149,7 +158,7 @@ class DriverTicketScreen extends Component {
       selectedDocs,
       isDocsVisible,
     } = this.state;
-    const { companyOffences, documents } = this.props;
+    const { driverOffences, documents } = this.props;
 
     return (
       <View style={styles.container}>
@@ -189,7 +198,7 @@ class DriverTicketScreen extends Component {
                         hideModal={() =>
                           this.setState({ isModalVisible: false })
                         }
-                        companyOffences={companyOffences}
+                        companyOffences={driverOffences}
                         handleThisOffence={this.handleThisOffence}
                         selectedItems={selectedItems}
                       />
@@ -227,7 +236,7 @@ class DriverTicketScreen extends Component {
                 <View style={styles.txtBoxContWrapper}>
                   <View style={styles.txtBoxCont}>
                     <View style={styles.txtLabelCont}>
-                      <Text style={styles.txtLabel}>Plate</Text>
+                      <Text style={styles.txtLabel}>Plate Number</Text>
                     </View>
                     <View style={styles.txtBoxHolder}>
                       <TextInput
@@ -235,6 +244,7 @@ class DriverTicketScreen extends Component {
                         onChangeText={(plate) => this.setState({ plate })}
                         value={plate}
                         placeholder="Input Plate Number"
+                        maxLength={7}
                       />
                     </View>
                   </View>
@@ -279,7 +289,7 @@ class DriverTicketScreen extends Component {
 }
 
 const mapStateToProps = ({
-  companyOffences,
+  driverOffences,
   companies,
   companyCategories,
   authedUser,
@@ -287,7 +297,7 @@ const mapStateToProps = ({
   driver,
 }) => {
   return {
-    companyOffences: Object.values(companyOffences),
+    driverOffences: Object.values(driverOffences),
     companies: Object.values(companies),
     companyCategories: Object.values(companyCategories),
     userId: authedUser && authedUser.id,
@@ -426,7 +436,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerLabel: {
-    color: orange,
+    color: white,
     fontFamily: 'bold',
     fontSize: 18,
   },

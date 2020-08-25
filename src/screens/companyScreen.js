@@ -29,6 +29,7 @@ import {
   fetchCategoryOffences,
 } from '../actions/company';
 import MultipleDocsSelect from '../components/MultipleSelect';
+import DarkOverlay from 'react-native-loading-spinner-overlay';
 
 const { width, height } = Dimensions.get('window');
 
@@ -110,12 +111,20 @@ class CompanyScreen extends Component {
     if (!plate) {
       response = false;
       errorMessage = 'Plate Number is required';
+    } else if (
+      plate.split(' ').join('').length < 7 ||
+      plate.split(' ').join('').length > 7 ||
+      !/^[a-zA-Z]+$/.test(plate.substr(0, 3)) ||
+      !/^\d+$/.test(plate.substr(3, 3)) ||
+      !/^[a-zA-Z]+$/.test(plate.substr(6, 1))
+    ) {
+      response = false;
+      errorMessage = 'Invalid Plate Number';
     }
     if (selectedDocs.length === 0) {
       response = false;
       errorMessage = 'Select atleast one document';
     }
-    // TODO: Validate Plate
     if (selectedItems.length === 0) {
       response = false;
       errorMessage = 'Select atleast one offence';
@@ -176,10 +185,16 @@ class CompanyScreen extends Component {
       companyCategories,
       companies,
       documents,
+      loading: propsLoading,
     } = this.props;
 
     return (
       <View style={styles.container}>
+        <DarkOverlay
+          visible={propsLoading}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
         <View style={styles.headerContent}>
           <View style={styles.headerText}>
             <Text style={styles.headerLabel}>Company Invoice</Text>
@@ -327,14 +342,17 @@ class CompanyScreen extends Component {
                   <View style={styles.txtBoxContWrapper}>
                     <View style={styles.txtBoxCont}>
                       <View style={styles.txtLabelCont}>
-                        <Text style={styles.txtLabel}>Plate</Text>
+                        <Text style={styles.txtLabel}>Plate Number</Text>
                       </View>
                       <View style={styles.txtBoxHolder}>
                         <TextInput
                           style={styles.txtBoxInput}
-                          onChangeText={(plate) => this.setState({ plate })}
+                          onChangeText={(plate) =>
+                            this.setState({ plate: plate.split(' ').join('') })
+                          }
                           value={plate}
                           placeholder="Input Plate Number"
+                          maxLength={7}
                         />
                       </View>
                     </View>
@@ -387,6 +405,7 @@ const mapStateToProps = ({
   companyCategories,
   authedUser,
   documents,
+  loading,
 }) => {
   return {
     companyOffences: Object.values(companyOffences),
@@ -394,6 +413,7 @@ const mapStateToProps = ({
     companyCategories: Object.values(companyCategories),
     userId: authedUser && authedUser.id,
     documents: Object.values(documents),
+    loading,
   };
 };
 
@@ -481,7 +501,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerLabel: {
-    color: orange,
+    color: white,
     fontFamily: 'bold',
     fontSize: 18,
   },
@@ -573,5 +593,9 @@ const styles = StyleSheet.create({
   },
   singlePickerItem: {
     fontFamily: 'regular',
+  },
+  spinnerTextStyle: {
+    fontFamily: 'regular',
+    color: gray,
   },
 });
