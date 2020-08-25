@@ -62,6 +62,7 @@ class DriverInvoiceScreen extends Component {
             </View>
             <View>
               <Text style={styles.headerTitle}>{driver.company_name}</Text>
+              {/* TODO: Driver Code */}
             </View>
           </View>
           <View style={styles.headerImg}>
@@ -78,7 +79,10 @@ class DriverInvoiceScreen extends Component {
             source={require('../../assets/bg-3.png')}
             style={[styles.mainContent, { paddingTop: 20 }]}
           >
-            <ScrollView>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={styles.scrollViewCont}
+            >
               <View style={styles.invoicesContainer}>
                 <View style={styles.invoiceCard}>
                   <View style={styles.invoiceHeader}>
@@ -124,7 +128,7 @@ class DriverInvoiceScreen extends Component {
                         <Fontisto name="date" size={24} color={white} />
                       </View>
                       <View>
-                        <Text style={styles.amountLabel}>Date</Text>
+                        <Text style={styles.amountLabel}>Due Date</Text>
                       </View>
                       <View>
                         <Text style={styles.amountValue}>01 Jun 2020</Text>
@@ -135,7 +139,12 @@ class DriverInvoiceScreen extends Component {
                 {/* Another Card */}
                 <View style={styles.invoiceCard}>
                   <View style={styles.invoiceHeader}>
-                    <View style={styles.arrangeContent}>
+                    <View
+                      style={[
+                        styles.arrangeContent,
+                        { alignItems: 'flex-start' },
+                      ]}
+                    >
                       <FontAwesome5
                         name="file-invoice"
                         size={18}
@@ -149,7 +158,42 @@ class DriverInvoiceScreen extends Component {
                       </View>
                     </View>
                   </View>
-                  <View style={styles.invoiceFooter}>
+                  <View style={styles.newInvoiceFooter}>
+                    <View style={styles.newInvoiceItem}>
+                      <View style={[styles.newInvoiceIcon, { marginRight: 5 }]}>
+                        <FontAwesome name="money" size={18} color={orange} />
+                      </View>
+                      <View style={styles.newInvoiceLabelContainer}>
+                        <Text style={styles.newInvoiceLabel}>Amount: </Text>
+                      </View>
+                      <View style={styles.newInvoiceLabelContainer}>
+                        <Text style={styles.newInvoiceValue}>RWF 100,000</Text>
+                      </View>
+                    </View>
+                    <View style={styles.newInvoiceItem}>
+                      <View style={[styles.newInvoiceIcon, { marginRight: 5 }]}>
+                        <Entypo name="location-pin" size={18} color={orange} />
+                      </View>
+                      <View style={styles.newInvoiceLabelContainer}>
+                        <Text style={styles.newInvoiceLabel}>Location: </Text>
+                      </View>
+                      <View style={styles.newInvoiceLabelContainer}>
+                        <Text style={styles.newInvoiceValue}>Nyamirambo</Text>
+                      </View>
+                    </View>
+                    <View style={styles.newInvoiceItem}>
+                      <View style={[styles.newInvoiceIcon, { marginRight: 5 }]}>
+                        <Fontisto name="date" size={18} color={orange} />
+                      </View>
+                      <View style={styles.newInvoiceLabelContainer}>
+                        <Text style={styles.newInvoiceLabel}>Due Date: </Text>
+                      </View>
+                      <View style={styles.newInvoiceLabelContainer}>
+                        <Text style={styles.newInvoiceValue}>1 Jun 2020</Text>
+                      </View>
+                    </View>
+                  </View>
+                  {/* <View style={styles.invoiceFooter}>
                     <View style={styles.footerContent}>
                       <View style={styles.footerIcon}>
                         <FontAwesome name="money" size={24} color={white} />
@@ -183,7 +227,7 @@ class DriverInvoiceScreen extends Component {
                         <Text style={styles.amountValue}>01 Jun 2020</Text>
                       </View>
                     </View>
-                  </View>
+                  </View> */}
                 </View>
                 {/* Another Card */}
                 <View style={styles.invoiceCard}>
@@ -197,7 +241,9 @@ class DriverInvoiceScreen extends Component {
                       <Text style={styles.invoiceNumberLabel}> #104578909</Text>
                     </View>
                     <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                      <View style={[styles.statusContainer, styles.deActivated]}>
+                      <View
+                        style={[styles.statusContainer, styles.deActivated]}
+                      >
                         <Text style={styles.statusLabel}>Pending</Text>
                       </View>
                     </View>
@@ -457,12 +503,12 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 4,
     },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
 
-    elevation: 10,
+    elevation: 9,
     padding: 5,
     marginBottom: 18,
   },
@@ -527,5 +573,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  scrollViewCont: {
+    color: white,
+  },
+  newInvoiceFooter: {
+    flex: 3,
+    justifyContent: 'center',
+    paddingLeft: 10,
+  },
+  newInvoiceItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  newInvoiceIcon: {},
+  newInvoiceLabelContainer: {},
+  newInvoiceLabel: {
+    fontFamily: 'bold',
+    color: blue,
+  },
+  newInvoiceValue: {
+    fontFamily: 'regular',
+    color: gray,
   },
 });

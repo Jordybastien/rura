@@ -6,6 +6,11 @@ import {
 } from './actionTypes';
 import { saveCompanyData } from '../services/company';
 import { logError } from './error';
+import {
+  newFetchCompanyCategories,
+  newFetchCompanyOffences,
+} from '../services/company';
+import { hideLoading, showLoading } from './loading';
 
 export const getCompanies = (companies) => {
   return {
@@ -45,5 +50,29 @@ export const handleSaveCompany = (data) => {
         logError('Failed to record data, please contact Administration')
       );
     }
+  };
+};
+
+export const fetchCompanyCategories = (user) => {
+  return async (dispatch) => {
+    dispatch(showLoading());
+    return newFetchCompanyCategories({ company_id: user })
+      .then((companyCategories) => {
+        dispatch(getCompanyCategories(companyCategories));
+        dispatch(hideLoading());
+      })
+      .catch(() => dispatch(hideLoading()));
+  };
+};
+
+export const fetchCategoryOffences = (category) => {
+  return async (dispatch) => {
+    dispatch(showLoading());
+    return newFetchCompanyOffences({ category_id: category })
+      .then((companyOffences) => {
+        dispatch(getCompanyOffences(companyOffences));
+        dispatch(hideLoading());
+      })
+      .catch(() => dispatch(hideLoading()));
   };
 };

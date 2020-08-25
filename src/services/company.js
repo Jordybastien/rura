@@ -16,8 +16,17 @@ export const fetchCompanyOffences = async () => {
   return res.data;
 };
 
-export const saveCompanyData = async (companyDetails) => {
+export const newFetchCompanyCategories = async (user) => {
+  const res = await api.post('/CheckCompanyCategory', user);
+  return res.data.company_category;
+};
 
+export const newFetchCompanyOffences = async (category) => {
+  const res = await api.post('/CategoryOffense', category);
+  return res.data.Offense;
+};
+
+export const saveCompanyData = async (companyDetails) => {
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
 

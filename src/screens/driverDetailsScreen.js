@@ -122,6 +122,7 @@ class DriverDetails extends Component {
                     <View style={styles.licenseContainer}>
                       <Text style={styles.licenseLabel}>
                         {driver.driver_dob}
+                        {/* TODO: Driver RURA Number */}
                       </Text>
                     </View>
                   </View>
@@ -137,7 +138,7 @@ class DriverDetails extends Component {
             </TouchableOpacity>
             <TouchableOpacity style={styles.btn} onPress={this.handleInvoice}>
               <FontAwesome5 name="file-invoice" size={30} color={blue} />
-              <Text style={styles.btnLabel}>Invoice</Text>
+              <Text style={styles.btnLabel}>User Invoice</Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>

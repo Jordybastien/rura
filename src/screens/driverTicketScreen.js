@@ -9,9 +9,9 @@ import {
   Button,
   ScrollView,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from 'react-native';
 import { blue, white, gray, orange, lowGray } from '../utils/colors';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
 import {
   Octicons,

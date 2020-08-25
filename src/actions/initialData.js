@@ -39,8 +39,8 @@ export const handleInitialData = () => {
     return getInitialData()
       .then(({ companies, companyCategories, companyOffences, documents }) => {
         dispatch(getCompanies(companies));
-        dispatch(getCompanyCategories(companyCategories));
-        dispatch(getCompanyOffences(companyOffences));
+        // dispatch(getCompanyCategories(companyCategories));
+        // dispatch(getCompanyOffences(companyOffences));
         dispatch(getDocuments(documents));
         dispatch(hideLoading());
       })

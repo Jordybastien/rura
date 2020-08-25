@@ -24,6 +24,11 @@ import { Picker, Item } from 'native-base';
 import Toast from 'react-native-toast-message';
 import { handleSaveCompany } from '../actions/company';
 import { Spinner } from 'native-base';
+import {
+  fetchCompanyCategories,
+  fetchCategoryOffences,
+} from '../actions/company';
+import MultipleDocsSelect from '../components/MultipleSelect';
 
 const { width, height } = Dimensions.get('window');
 
@@ -36,6 +41,8 @@ class CompanyScreen extends Component {
     location: '',
     plate: '',
     loading: false,
+    selectedDocs: [],
+    isDocsVisible: false,
   };
 
   handleThisOffence = (id) => {
@@ -50,9 +57,15 @@ class CompanyScreen extends Component {
     }
   };
 
-  handleCompany = (data) => this.setState({ selCompany: data });
+  handleCompany = (data) => {
+    this.setState({ selCompany: data });
+    this.props.dispatch(fetchCompanyCategories(data));
+  };
 
-  handleCompanyCategory = (data) => this.setState({ selCompanyCategory: data });
+  handleCompanyCategory = (data) => {
+    this.setState({ selCompanyCategory: data });
+    this.props.dispatch(fetchCategoryOffences(data));
+  };
 
   handleRecordCompany = () => {
     const { response, data } = this.validateData();
@@ -84,6 +97,7 @@ class CompanyScreen extends Component {
       location,
       plate,
       loading,
+      selectedDocs,
     } = this.state;
 
     let response = true;
@@ -97,6 +111,11 @@ class CompanyScreen extends Component {
       response = false;
       errorMessage = 'Plate Number is required';
     }
+    if (selectedDocs.length === 0) {
+      response = false;
+      errorMessage = 'Select atleast one document';
+    }
+    // TODO: Validate Plate
     if (selectedItems.length === 0) {
       response = false;
       errorMessage = 'Select atleast one offence';
@@ -117,6 +136,7 @@ class CompanyScreen extends Component {
     data.offense_id = selectedItems;
     data.plate_number = plate;
     data.user_id = this.props.userId;
+    data.docs_id = selectedDocs;
 
     errorMessage &&
       Toast.show({
@@ -125,6 +145,18 @@ class CompanyScreen extends Component {
         type: 'error',
       });
     return { response, data };
+  };
+
+  handleThisDoc = (id) => {
+    const { selectedDocs } = this.state;
+    const check = selectedDocs.filter((el) => el === id);
+    if (check.length === 0) {
+      selectedDocs.push(id);
+      this.setState({ selectedDocs });
+    } else {
+      const toSave = selectedDocs.filter((el) => el !== id);
+      this.setState({ selectedDocs: toSave });
+    }
   };
 
   render() {
@@ -136,8 +168,15 @@ class CompanyScreen extends Component {
       location,
       plate,
       loading,
+      selectedDocs,
+      isDocsVisible,
     } = this.state;
-    const { companyOffences, companyCategories, companies } = this.props;
+    const {
+      companyOffences,
+      companyCategories,
+      companies,
+      documents,
+    } = this.props;
 
     return (
       <View style={styles.container}>
@@ -155,142 +194,185 @@ class CompanyScreen extends Component {
               style
               behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
             >
-              <View style={styles.txtBoxContainer}>
-                <View style={[styles.txtBoxContWrapper, { height: 70 }]}>
-                  <View style={[styles.txtBoxCont, { height: 70 }]}>
-                    <View style={[styles.txtLabelCont, { marginBottom: 0 }]}>
-                      <Text style={styles.txtLabel}>Company</Text>
-                    </View>
-                    <View style={styles.txtBoxHolder}>
-                      <Picker
-                        mode="dropdown"
-                        style={styles.picker}
-                        onValueChange={(value) => this.handleCompany(value)}
-                        placeholder="Select Company"
-                        selectedValue={selCompany}
-                      >
-                        <Picker.Item label="Select Company" value={null} />
-                        {companies &&
-                          companies.map(({ id, company_name }, index) => (
-                            <Picker.Item
-                              key={index}
-                              label={company_name}
-                              value={id}
-                              style={styles.singlePickerItem}
-                            />
-                          ))}
-                      </Picker>
-                    </View>
-                  </View>
-                </View>
-                <View style={[styles.txtBoxContWrapper, { height: 70 }]}>
-                  <View style={[styles.txtBoxCont, { height: 70 }]}>
-                    <View style={[styles.txtLabelCont, { marginBottom: 0 }]}>
-                      <Text style={styles.txtLabel}>Company Category</Text>
-                    </View>
-                    <View style={styles.txtBoxHolder}>
-                      <Picker
-                        mode="dropdown"
-                        style={styles.picker}
-                        onValueChange={(value) =>
-                          this.handleCompanyCategory(value)
-                        }
-                        placeholder="Select Company Category"
-                        selectedValue={selCompanyCategory}
-                      >
-                        <Picker.Item
-                          label="Select Company Category"
-                          value={null}
-                        />
-                        {companyCategories &&
-                          companyCategories.map(
-                            ({ id, company_category }, index) => (
+              <ScrollView
+                style={styles.txtBoxContainer}
+                showsVerticalScrollIndicator={false}
+              >
+                <View style={styles.txtBoxContainer}>
+                  <View style={[styles.txtBoxContWrapper, { height: 70 }]}>
+                    <View style={[styles.txtBoxCont, { height: 70 }]}>
+                      <View style={[styles.txtLabelCont, { marginBottom: 0 }]}>
+                        <Text style={styles.txtLabel}>Company</Text>
+                      </View>
+                      <View style={styles.txtBoxHolder}>
+                        <Picker
+                          mode="dropdown"
+                          style={styles.picker}
+                          onValueChange={(value) => this.handleCompany(value)}
+                          placeholder="Select Company"
+                          selectedValue={selCompany}
+                        >
+                          <Picker.Item label="Select Company" value={null} />
+                          {companies &&
+                            companies.map(({ id, company_name }, index) => (
                               <Picker.Item
                                 key={index}
-                                label={company_category}
+                                label={company_name}
                                 value={id}
                                 style={styles.singlePickerItem}
                               />
-                            )
-                          )}
-                      </Picker>
-                    </View>
-                  </View>
-                </View>
-                <View style={styles.txtBoxContWrapper}>
-                  <View style={styles.txtBoxCont}>
-                    <View style={styles.txtLabelCont}>
-                      <Text style={styles.txtLabel}>Offence</Text>
-                    </View>
-                    <View style={styles.txtBoxHolder}>
-                      <TouchableOpacity
-                        onPress={() => this.setState({ isModalVisible: true })}
-                      >
-                        <Text style={styles.txtLabel}>
-                          {selectedItems.length === 0
-                            ? 'Select Offence(s)'
-                            : `${selectedItems.length} offence
-                            `}
-                        </Text>
-                      </TouchableOpacity>
-                      <MultipleSelect
-                        isModalVisible={isModalVisible}
-                        hideModal={() =>
-                          this.setState({ isModalVisible: false })
-                        }
-                        companyOffences={companyOffences}
-                        handleThisOffence={this.handleThisOffence}
-                        selectedItems={selectedItems}
-                      />
-                    </View>
-                  </View>
-                </View>
-                <View style={styles.txtBoxContWrapper}>
-                  <View style={styles.txtBoxCont}>
-                    <View style={styles.txtLabelCont}>
-                      <Text style={styles.txtLabel}>Plate</Text>
-                    </View>
-                    <View style={styles.txtBoxHolder}>
-                      <TextInput
-                        style={styles.txtBoxInput}
-                        onChangeText={(plate) => this.setState({ plate })}
-                        value={plate}
-                        placeholder="Input Plate Number"
-                      />
-                    </View>
-                  </View>
-                </View>
-                <View style={styles.txtBoxContWrapper}>
-                  <View style={styles.txtBoxCont}>
-                    <View style={styles.txtLabelCont}>
-                      <Text style={styles.txtLabel}>Location</Text>
-                    </View>
-                    <View style={styles.txtBoxHolder}>
-                      <TextInput
-                        style={styles.txtBoxInput}
-                        onChangeText={(location) => this.setState({ location })}
-                        value={location}
-                        placeholder="Input Location"
-                      />
-                    </View>
-                  </View>
-                </View>
-                <TouchableOpacity
-                  style={[styles.buttonHolder]}
-                  onPress={this.handleRecordCompany}
-                >
-                  <View style={[styles.buttonContainer, { flex: 1 }]}>
-                    {loading ? (
-                      <Spinner color={white} />
-                    ) : (
-                      <View>
-                        <FontAwesome name="save" size={30} color={white} />
-                        <Text style={styles.btnLabel}>Save</Text>
+                            ))}
+                        </Picker>
                       </View>
-                    )}
+                    </View>
                   </View>
-                </TouchableOpacity>
-              </View>
+                  {companyCategories.length !== 0 && (
+                    <View style={[styles.txtBoxContWrapper, { height: 70 }]}>
+                      <View style={[styles.txtBoxCont, { height: 70 }]}>
+                        <View
+                          style={[styles.txtLabelCont, { marginBottom: 0 }]}
+                        >
+                          <Text style={styles.txtLabel}>Company Category</Text>
+                        </View>
+                        <View style={styles.txtBoxHolder}>
+                          <Picker
+                            mode="dropdown"
+                            style={styles.picker}
+                            onValueChange={(value) =>
+                              this.handleCompanyCategory(value)
+                            }
+                            placeholder="Select Company Category"
+                            selectedValue={selCompanyCategory}
+                          >
+                            <Picker.Item
+                              label="Select Company Category"
+                              value={null}
+                            />
+                            {companyCategories &&
+                              companyCategories.map(
+                                ({ id, company_category }, index) => (
+                                  <Picker.Item
+                                    key={index}
+                                    label={company_category}
+                                    value={id}
+                                    style={styles.singlePickerItem}
+                                  />
+                                )
+                              )}
+                          </Picker>
+                        </View>
+                      </View>
+                    </View>
+                  )}
+                  {companyOffences.length !== 0 && (
+                    <View style={styles.txtBoxContWrapper}>
+                      <View style={styles.txtBoxCont}>
+                        <View style={styles.txtLabelCont}>
+                          <Text style={styles.txtLabel}>Offence</Text>
+                        </View>
+                        <View style={styles.txtBoxHolder}>
+                          <TouchableOpacity
+                            onPress={() =>
+                              this.setState({ isModalVisible: true })
+                            }
+                          >
+                            <Text style={styles.txtLabel}>
+                              {selectedItems.length === 0
+                                ? 'Select Offence(s)'
+                                : `${selectedItems.length} offence
+                            `}
+                            </Text>
+                          </TouchableOpacity>
+                          <MultipleSelect
+                            isModalVisible={isModalVisible}
+                            hideModal={() =>
+                              this.setState({ isModalVisible: false })
+                            }
+                            companyOffences={companyOffences}
+                            handleThisOffence={this.handleThisOffence}
+                            selectedItems={selectedItems}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                  )}
+                  <View style={styles.txtBoxContWrapper}>
+                    <View style={styles.txtBoxCont}>
+                      <View style={styles.txtLabelCont}>
+                        <Text style={styles.txtLabel}>Documents</Text>
+                      </View>
+                      <View style={styles.txtBoxHolder}>
+                        <TouchableOpacity
+                          onPress={() => this.setState({ isDocsVisible: true })}
+                        >
+                          <Text style={styles.txtLabel}>
+                            {selectedDocs.length === 0
+                              ? 'Select confiscated Document(s)'
+                              : `${selectedDocs.length} documents
+                            `}
+                          </Text>
+                        </TouchableOpacity>
+                        <MultipleDocsSelect
+                          isModalVisible={isDocsVisible}
+                          hideModal={() =>
+                            this.setState({ isDocsVisible: false })
+                          }
+                          documents={documents}
+                          handleThisDoc={this.handleThisDoc}
+                          selectedItems={selectedDocs}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.txtBoxContWrapper}>
+                    <View style={styles.txtBoxCont}>
+                      <View style={styles.txtLabelCont}>
+                        <Text style={styles.txtLabel}>Plate</Text>
+                      </View>
+                      <View style={styles.txtBoxHolder}>
+                        <TextInput
+                          style={styles.txtBoxInput}
+                          onChangeText={(plate) => this.setState({ plate })}
+                          value={plate}
+                          placeholder="Input Plate Number"
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.txtBoxContWrapper}>
+                    <View style={styles.txtBoxCont}>
+                      <View style={styles.txtLabelCont}>
+                        <Text style={styles.txtLabel}>Location</Text>
+                      </View>
+                      <View style={styles.txtBoxHolder}>
+                        <TextInput
+                          style={styles.txtBoxInput}
+                          onChangeText={(location) =>
+                            this.setState({ location })
+                          }
+                          value={location}
+                          placeholder="Input Location"
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  <TouchableOpacity
+                    style={[styles.buttonHolder]}
+                    onPress={this.handleRecordCompany}
+                  >
+                    <View style={[styles.buttonContainer, { flex: 1 }]}>
+                      {loading ? (
+                        <Spinner color={white} />
+                      ) : (
+                        <View>
+                          <FontAwesome name="save" size={30} color={white} />
+                          <Text style={styles.btnLabel}>Save</Text>
+                        </View>
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </ScrollView>
             </KeyboardAvoidingView>
           </ImageBackground>
         </View>
@@ -304,12 +386,14 @@ const mapStateToProps = ({
   companies,
   companyCategories,
   authedUser,
+  documents,
 }) => {
   return {
     companyOffences: Object.values(companyOffences),
     companies: Object.values(companies),
     companyCategories: Object.values(companyCategories),
     userId: authedUser && authedUser.id,
+    documents: Object.values(documents),
   };
 };
 
