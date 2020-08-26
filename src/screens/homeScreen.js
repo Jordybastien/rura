@@ -35,9 +35,12 @@ class HomeScreen extends Component {
               <Text style={styles.headerTitle}>{userRole}</Text>
             </View>
           </View>
-          <View style={styles.headerImg}>
+          <TouchableOpacity
+            style={styles.headerImg}
+            onPress={() => this.props.navigation.navigate('ProfileScreen')}
+          >
             <FontAwesome name="user-circle-o" size={40} color={white} />
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.mainContent}>
           <ImageBackground

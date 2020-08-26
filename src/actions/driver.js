@@ -2,6 +2,7 @@ import {
   SEARCH_DRIVER,
   RECORD_DRIVER,
   FETCH_DRIVER_OFFENCES,
+  FETCH_DRIVER_INVOICES,
 } from './actionTypes';
 import { findDriver, recordDriverTicket } from '../services/driver';
 import { logError } from './error';
@@ -20,6 +21,13 @@ export const recordDriver = (driver) => {
   };
 };
 
+export const getDriverInvoices = (driverInvoices) => {
+  return {
+    type: FETCH_DRIVER_INVOICES,
+    driverInvoices,
+  };
+};
+
 export const getDriverOffences = (driverOffences) => {
   return {
     type: FETCH_DRIVER_OFFENCES,
@@ -30,8 +38,13 @@ export const getDriverOffences = (driverOffences) => {
 export const handleSearchDriver = (data) => {
   return async (dispatch) => {
     try {
-      const driver = await findDriver(data);
+      const {
+        Driver_data: driver,
+        Invoices: driverInvoices,
+      } = await findDriver(data);
+
       if (driver) {
+        dispatch(getDriverInvoices(driverInvoices));
         return dispatch(getDriver(driver[0]));
       } else {
         return dispatch(logError('Driver record not found'));

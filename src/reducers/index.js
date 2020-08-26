@@ -8,6 +8,7 @@ import authedUser from './authedUser';
 import driver from './driver';
 import documents from './documents';
 import driverOffences from './driverOffences';
+import driverInvoices from './driverInvoices';
 
 export default combineReducers({
   loading,
@@ -19,4 +20,5 @@ export default combineReducers({
   driver,
   documents,
   driverOffences,
+  driverInvoices,
 });

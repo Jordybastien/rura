@@ -2,7 +2,12 @@ import api from './api';
 
 export const findDriver = async (driver) => {
   const res = await api.post('/VerifyDriver', driver);
-  return res.data.Driver_data;
+  return res.data;
+};
+
+export const fetchDriverOffences = async () => {
+  const res = await api.get('/DriverOffense');
+  return res.data.Offenses;
 };
 
 export const recordDriverTicket = async (driverDetails) => {

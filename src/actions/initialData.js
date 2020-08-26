@@ -12,6 +12,7 @@ import { hideLoading, showLoading } from './loading';
 import { getDocuments } from './documents';
 import { fetchDocuments } from '../services/documents';
 import { getDriverOffences } from './driver';
+import { fetchDriverOffences } from '../services/driver';
 
 const getInitialData = async () => {
   const [
@@ -22,9 +23,10 @@ const getInitialData = async () => {
   ] = await Promise.all([
     fetchCompanies(),
     fetchCompanyCategories(),
-    fetchCompanyOffences(),
+    fetchDriverOffences(),
     fetchDocuments(),
   ]);
+  
 
   return {
     companies,
