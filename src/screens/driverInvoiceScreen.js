@@ -145,7 +145,7 @@ class DriverInvoiceScreen extends Component {
                             { color: blue, fontSize: 15, marginLeft: 2 },
                           ]}
                         >
-                          Invoice Number:{' '}
+                          Invoice No:{' '}
                         </Text>
                         <Text
                           style={[

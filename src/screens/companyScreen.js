@@ -234,7 +234,6 @@ class CompanyScreen extends Component {
                                 key={index}
                                 label={company_name}
                                 value={id}
-                                style={styles.singlePickerItem}
                               />
                             ))}
                         </Picker>
