@@ -101,7 +101,13 @@ class ScanDetailsScreen extends Component {
               style={styles.mainContent}
             >
               <View style={styles.txtBoxContainer}>
-                <View style={styles.txtBoxContWrapper}>
+                <TouchableOpacity
+                  style={styles.txtBoxContWrapper}
+                  onPress={() => {
+                    this.idNumTxt.focus();
+                  }}
+                  activeOpacity={1}
+                >
                   <View style={styles.txtBoxCont}>
                     <View style={styles.txtLabelCont}>
                       <Text style={styles.txtLabel}>ID Number</Text>
@@ -116,10 +122,13 @@ class ScanDetailsScreen extends Component {
                         onChangeText={(selIdNumber) =>
                           this.setState({ selIdNumber })
                         }
+                        ref={(input) => {
+                          this.idNumTxt = input;
+                        }}
                       />
                     </View>
                   </View>
-                </View>
+                </TouchableOpacity>
                 {showError && (
                   <View style={styles.errorContainer}>
                     <View style={styles.errorIconContainer}>

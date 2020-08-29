@@ -29,9 +29,7 @@ const SuccessScreen = (props) => {
             />
           </Animatable.View>
           <View style={styles.labelContainer}>
-            <Text style={styles.mainLabel}>
-              Informations recorded successfully!
-            </Text>
+            <Text style={styles.mainLabel}>Offence recorded successfully!</Text>
           </View>
           <TouchableOpacity
             style={styles.buttonHolder}

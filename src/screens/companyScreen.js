@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import {
   View,
   Text,
@@ -30,6 +30,7 @@ import {
 } from '../actions/company';
 import MultipleDocsSelect from '../components/MultipleSelect';
 import DarkOverlay from 'react-native-loading-spinner-overlay';
+import { hideLoading } from '../actions/loading';
 
 const { width, height } = Dimensions.get('window');
 
@@ -60,12 +61,16 @@ class CompanyScreen extends Component {
 
   handleCompany = (data) => {
     this.setState({ selCompany: data });
-    this.props.dispatch(fetchCompanyCategories(data));
+    this.props
+      .dispatch(fetchCompanyCategories(data))
+      .catch(() => this.props.dispatch(hideLoading()));
   };
 
   handleCompanyCategory = (data) => {
     this.setState({ selCompanyCategory: data });
-    this.props.dispatch(fetchCategoryOffences(data));
+    this.props
+      .dispatch(fetchCategoryOffences(data))
+      .catch(() => this.props.dispatch(hideLoading()));
   };
 
   handleRecordCompany = () => {
@@ -187,6 +192,8 @@ class CompanyScreen extends Component {
       documents,
       loading: propsLoading,
     } = this.props;
+    this.companyRef = createRef();
+    console.log('=========>Ref', this.companyRef.current);
 
     return (
       <View style={styles.container}>
@@ -214,11 +221,12 @@ class CompanyScreen extends Component {
                 showsVerticalScrollIndicator={false}
               >
                 <View style={styles.txtBoxContainer}>
-                  <View style={[styles.txtBoxContWrapper, { height: 70 }]}>
-                    <View style={[styles.txtBoxCont, { height: 70 }]}>
-                      <View style={[styles.txtLabelCont, { marginBottom: 0 }]}>
+                  <View style={[styles.txtBoxContWrapper, { flex: 1 }]}>
+                    {/* height: 70 */}
+                    <View style={[styles.txtBoxCont, { flex: 1 }]}>
+                      {/* <View style={[styles.txtLabelCont, { marginBottom: 0 }]}>
                         <Text style={styles.txtLabel}>Company</Text>
-                      </View>
+                      </View> */}
                       <View style={styles.txtBoxHolder}>
                         <Picker
                           mode="dropdown"
@@ -241,13 +249,14 @@ class CompanyScreen extends Component {
                     </View>
                   </View>
                   {companyCategories.length !== 0 && (
-                    <View style={[styles.txtBoxContWrapper, { height: 70 }]}>
-                      <View style={[styles.txtBoxCont, { height: 70 }]}>
-                        <View
+                    <View style={[styles.txtBoxContWrapper, { flex: 1 }]}>
+                      {/* height: 70 */}
+                      <View style={[styles.txtBoxCont, { flex: 1 }]}>
+                        {/* <View
                           style={[styles.txtLabelCont, { marginBottom: 0 }]}
                         >
                           <Text style={styles.txtLabel}>Company Category</Text>
-                        </View>
+                        </View> */}
                         <View style={styles.txtBoxHolder}>
                           <Picker
                             mode="dropdown"
@@ -279,7 +288,11 @@ class CompanyScreen extends Component {
                     </View>
                   )}
                   {companyOffences.length !== 0 && (
-                    <View style={styles.txtBoxContWrapper}>
+                    <TouchableOpacity
+                      style={styles.txtBoxContWrapper}
+                      onPress={() => this.setState({ isModalVisible: true })}
+                      activeOpacity={1}
+                    >
                       <View style={styles.txtBoxCont}>
                         <View style={styles.txtLabelCont}>
                           <Text style={styles.txtLabel}>Offence</Text>
@@ -308,9 +321,13 @@ class CompanyScreen extends Component {
                           />
                         </View>
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   )}
-                  <View style={styles.txtBoxContWrapper}>
+                  <TouchableOpacity
+                    style={styles.txtBoxContWrapper}
+                    onPress={() => this.setState({ isDocsVisible: true })}
+                    activeOpacity={1}
+                  >
                     <View style={styles.txtBoxCont}>
                       <View style={styles.txtLabelCont}>
                         <Text style={styles.txtLabel}>Documents</Text>
@@ -318,6 +335,7 @@ class CompanyScreen extends Component {
                       <View style={styles.txtBoxHolder}>
                         <TouchableOpacity
                           onPress={() => this.setState({ isDocsVisible: true })}
+                          activeOpacity={1}
                         >
                           <Text style={styles.txtLabel}>
                             {selectedDocs.length === 0
@@ -337,8 +355,14 @@ class CompanyScreen extends Component {
                         />
                       </View>
                     </View>
-                  </View>
-                  <View style={styles.txtBoxContWrapper}>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.txtBoxContWrapper}
+                    onPress={() => {
+                      this.plateTxt.focus();
+                    }}
+                    activeOpacity={1}
+                  >
                     <View style={styles.txtBoxCont}>
                       <View style={styles.txtLabelCont}>
                         <Text style={styles.txtLabel}>Plate Number</Text>
@@ -352,11 +376,20 @@ class CompanyScreen extends Component {
                           value={plate}
                           placeholder="Input Plate Number"
                           maxLength={7}
+                          ref={(input) => {
+                            this.plateTxt = input;
+                          }}
                         />
                       </View>
                     </View>
-                  </View>
-                  <View style={styles.txtBoxContWrapper}>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.txtBoxContWrapper}
+                    onPress={() => {
+                      this.locationTxt.focus();
+                    }}
+                    activeOpacity={1}
+                  >
                     <View style={styles.txtBoxCont}>
                       <View style={styles.txtLabelCont}>
                         <Text style={styles.txtLabel}>Location</Text>
@@ -369,10 +402,13 @@ class CompanyScreen extends Component {
                           }
                           value={location}
                           placeholder="Input Location"
+                          ref={(input) => {
+                            this.locationTxt = input;
+                          }}
                         />
                       </View>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                   <TouchableOpacity
                     style={[styles.buttonHolder]}
                     onPress={this.handleRecordCompany}
@@ -589,6 +625,7 @@ const styles = StyleSheet.create({
   picker: {
     color: gray,
     fontFamily: 'regular',
+    width: width,
   },
   singlePickerItem: {
     fontFamily: 'regular',

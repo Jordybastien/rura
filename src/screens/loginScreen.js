@@ -119,7 +119,13 @@ class LoginScreen extends Component {
                 </View>
               </View>
               <View style={styles.txtBoxContainer}>
-                <View style={styles.txtBoxContWrapper}>
+                <TouchableOpacity
+                  style={styles.txtBoxContWrapper}
+                  onPress={() => {
+                    this.emailTxt.focus();
+                  }}
+                  activeOpacity={1}
+                >
                   <View style={styles.txtBoxCont}>
                     <View style={styles.txtLabelCont}>
                       <Text style={styles.txtLabel}>Email</Text>
@@ -133,11 +139,20 @@ class LoginScreen extends Component {
                         onFocus={() => this.setState({ showSvg: false })}
                         onBlur={() => this.setState({ showSvg: true })}
                         autoCapitalize="none"
+                        ref={(input) => {
+                          this.emailTxt = input;
+                        }}
                       />
                     </View>
                   </View>
-                </View>
-                <View style={styles.txtBoxContWrapper}>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.txtBoxContWrapper}
+                  onPress={() => {
+                    this.passwordTxt.focus();
+                  }}
+                  activeOpacity={1}
+                >
                   <View style={styles.txtBoxCont}>
                     <View style={styles.txtLabelCont}>
                       <Text style={styles.txtLabel}>Password</Text>
@@ -152,10 +167,13 @@ class LoginScreen extends Component {
                         secureTextEntry={true}
                         placeholder="********"
                         autoCapitalize="none"
+                        ref={(input) => {
+                          this.passwordTxt = input;
+                        }}
                       />
                     </View>
                   </View>
-                </View>
+                </TouchableOpacity>
               </View>
               <View style={styles.btnContainer}>
                 <TouchableOpacity

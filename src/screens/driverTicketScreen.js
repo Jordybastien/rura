@@ -177,7 +177,11 @@ class DriverTicketScreen extends Component {
               behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
             >
               <View style={styles.txtBoxContainer}>
-                <View style={styles.txtBoxContWrapper}>
+                <TouchableOpacity
+                  style={styles.txtBoxContWrapper}
+                  onPress={() => this.setState({ isModalVisible: true })}
+                  activeOpacity={1}
+                >
                   <View style={styles.txtBoxCont}>
                     <View style={styles.txtLabelCont}>
                       <Text style={styles.txtLabel}>Offence</Text>
@@ -185,6 +189,7 @@ class DriverTicketScreen extends Component {
                     <View style={styles.txtBoxHolder}>
                       <TouchableOpacity
                         onPress={() => this.setState({ isModalVisible: true })}
+                        activeOpacity={1}
                       >
                         <Text style={styles.txtLabel}>
                           {selectedItems.length === 0
@@ -204,8 +209,12 @@ class DriverTicketScreen extends Component {
                       />
                     </View>
                   </View>
-                </View>
-                <View style={styles.txtBoxContWrapper}>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.txtBoxContWrapper}
+                  onPress={() => this.setState({ isDocsVisible: true })}
+                  activeOpacity={1}
+                >
                   <View style={styles.txtBoxCont}>
                     <View style={styles.txtLabelCont}>
                       <Text style={styles.txtLabel}>Documents</Text>
@@ -213,6 +222,7 @@ class DriverTicketScreen extends Component {
                     <View style={styles.txtBoxHolder}>
                       <TouchableOpacity
                         onPress={() => this.setState({ isDocsVisible: true })}
+                        activeOpacity={1}
                       >
                         <Text style={styles.txtLabel}>
                           {selectedDocs.length === 0
@@ -232,8 +242,14 @@ class DriverTicketScreen extends Component {
                       />
                     </View>
                   </View>
-                </View>
-                <View style={styles.txtBoxContWrapper}>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.txtBoxContWrapper}
+                  onPress={() => {
+                    this.plateTxt.focus();
+                  }}
+                  activeOpacity={1}
+                >
                   <View style={styles.txtBoxCont}>
                     <View style={styles.txtLabelCont}>
                       <Text style={styles.txtLabel}>Plate Number</Text>
@@ -245,11 +261,20 @@ class DriverTicketScreen extends Component {
                         value={plate}
                         placeholder="Input Plate Number"
                         maxLength={7}
+                        ref={(input) => {
+                          this.plateTxt = input;
+                        }}
                       />
                     </View>
                   </View>
-                </View>
-                <View style={styles.txtBoxContWrapper}>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.txtBoxContWrapper}
+                  onPress={() => {
+                    this.locationTxt.focus();
+                  }}
+                  activeOpacity={1}
+                >
                   <View style={styles.txtBoxCont}>
                     <View style={styles.txtLabelCont}>
                       <Text style={styles.txtLabel}>Location</Text>
@@ -260,10 +285,13 @@ class DriverTicketScreen extends Component {
                         onChangeText={(location) => this.setState({ location })}
                         value={location}
                         placeholder="Input Location"
+                        ref={(input) => {
+                          this.locationTxt = input;
+                        }}
                       />
                     </View>
                   </View>
-                </View>
+                </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.buttonHolder]}
                   onPress={this.handleRecordCompany}
