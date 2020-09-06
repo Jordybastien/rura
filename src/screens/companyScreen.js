@@ -45,6 +45,8 @@ class CompanyScreen extends Component {
     loading: false,
     selectedDocs: [],
     isDocsVisible: false,
+    categoriesToUse: null,
+    offencesToUse: null,
   };
 
   handleThisOffence = (id) => {
@@ -59,18 +61,44 @@ class CompanyScreen extends Component {
     }
   };
 
-  handleCompany = (data) => {
-    this.setState({ selCompany: data });
-    this.props
-      .dispatch(fetchCompanyCategories(data))
-      .catch(() => this.props.dispatch(hideLoading()));
-  };
+  handleCompany = (data) =>
+    this.setState({
+      selCompany: data,
+      categoriesToUse: this.props.companiesDetails.filter(
+        ({ id }) => id === data
+      ),
+    });
 
   handleCompanyCategory = (data) => {
-    this.setState({ selCompanyCategory: data });
-    this.props
-      .dispatch(fetchCategoryOffences(data))
-      .catch(() => this.props.dispatch(hideLoading()));
+    const { categoriesToUse } = this.state;
+    if (categoriesToUse) {
+      if (categoriesToUse[0].CompanyCategories.length !== 0) {
+        const selectedCategory = categoriesToUse[0].CompanyCategories.filter(
+          (item) => item.company_category_id === data
+        );
+        const selectedOffences =
+          selectedCategory[0].Category_names[0].OffensePrice;
+        if (selectedOffences.length !== 0) {
+          this.setState({
+            selCompanyCategory: data,
+            offencesToUse: selectedOffences,
+          });
+        } else {
+          Toast.show({
+            text1: 'Warning',
+            text2:
+              'No recorded offence for this category, Please Contact Administrator',
+            type: 'error',
+          });
+        }
+      }
+    } else {
+      Toast.show({
+        text1: 'Warning',
+        text2: 'Select Company First',
+        type: 'error',
+      });
+    }
   };
 
   handleRecordCompany = () => {
@@ -184,6 +212,8 @@ class CompanyScreen extends Component {
       loading,
       selectedDocs,
       isDocsVisible,
+      categoriesToUse,
+      offencesToUse,
     } = this.state;
     const {
       companyOffences,
@@ -191,9 +221,15 @@ class CompanyScreen extends Component {
       companies,
       documents,
       loading: propsLoading,
+      companiesDetails,
     } = this.props;
     this.companyRef = createRef();
-    console.log('=========>Ref', this.companyRef.current);
+
+    // categoriesToUse &&
+    //   console.log(
+    //     '==========>categoriesToUse',
+    //     JSON.stringify(categoriesToUse, null, 2)
+    //   );
 
     return (
       <View style={styles.container}>
@@ -236,19 +272,21 @@ class CompanyScreen extends Component {
                           selectedValue={selCompany}
                         >
                           <Picker.Item label="Select Company" value={null} />
-                          {companies &&
-                            companies.map(({ id, company_name }, index) => (
-                              <Picker.Item
-                                key={index}
-                                label={company_name}
-                                value={id}
-                              />
-                            ))}
+                          {companiesDetails &&
+                            companiesDetails.map(
+                              ({ id, company_name }, index) => (
+                                <Picker.Item
+                                  key={index}
+                                  label={company_name}
+                                  value={id}
+                                />
+                              )
+                            )}
                         </Picker>
                       </View>
                     </View>
                   </View>
-                  {companyCategories.length !== 0 && (
+                  {categoriesToUse && (
                     <View style={[styles.txtBoxContWrapper, { flex: 1 }]}>
                       {/* height: 70 */}
                       <View style={[styles.txtBoxCont, { flex: 1 }]}>
@@ -271,13 +309,16 @@ class CompanyScreen extends Component {
                               label="Select Company Category"
                               value={null}
                             />
-                            {companyCategories &&
-                              companyCategories.map(
-                                ({ id, company_category }, index) => (
+                            {categoriesToUse[0].CompanyCategories &&
+                              categoriesToUse[0].CompanyCategories.map(
+                                (categoryItem, index) => (
                                   <Picker.Item
                                     key={index}
-                                    label={company_category}
-                                    value={id}
+                                    label={
+                                      categoryItem.Category_names[0]
+                                        .company_category
+                                    }
+                                    value={categoryItem.company_category_id}
                                     style={styles.singlePickerItem}
                                   />
                                 )
@@ -287,7 +328,7 @@ class CompanyScreen extends Component {
                       </View>
                     </View>
                   )}
-                  {companyOffences.length !== 0 && (
+                  {offencesToUse && (
                     <TouchableOpacity
                       style={styles.txtBoxContWrapper}
                       onPress={() => this.setState({ isModalVisible: true })}
@@ -315,7 +356,7 @@ class CompanyScreen extends Component {
                             hideModal={() =>
                               this.setState({ isModalVisible: false })
                             }
-                            companyOffences={companyOffences}
+                            companyOffences={offencesToUse}
                             handleThisOffence={this.handleThisOffence}
                             selectedItems={selectedItems}
                           />
@@ -441,6 +482,7 @@ const mapStateToProps = ({
   authedUser,
   documents,
   loading,
+  companiesDetails,
 }) => {
   return {
     companyOffences: Object.values(companyOffences),
@@ -449,6 +491,7 @@ const mapStateToProps = ({
     userId: authedUser && authedUser.id,
     documents: Object.values(documents),
     loading,
+    companiesDetails: Object.values(companiesDetails),
   };
 };
 
@@ -623,8 +666,6 @@ const styles = StyleSheet.create({
     width: width - 150,
   },
   picker: {
-    color: gray,
-    fontFamily: 'regular',
     width: width,
   },
   singlePickerItem: {

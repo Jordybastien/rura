@@ -3,6 +3,7 @@ import {
   FETCH_COMPANY_OFFENCES,
   FETCH_COMPANIES,
   RECORD_COMPANY,
+  FETCH_COMPANIES_WITH_DETAILS,
 } from './actionTypes';
 import { saveCompanyData } from '../services/company';
 import { logError } from './error';
@@ -15,6 +16,13 @@ import { hideLoading, showLoading } from './loading';
 export const getCompanies = (companies) => {
   return {
     type: FETCH_COMPANIES,
+    companies,
+  };
+};
+
+export const getCompaniesWithDetails = (companies) => {
+  return {
+    type: FETCH_COMPANIES_WITH_DETAILS,
     companies,
   };
 };

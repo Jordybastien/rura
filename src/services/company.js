@@ -6,6 +6,11 @@ export const fetchCompanies = async () => {
   return res.data;
 };
 
+export const newFetchCompanyDetails = async () => {
+  const res = await api.get('/CompanyWithOffense');
+  return res.data;
+};
+
 export const fetchCompanyCategories = async () => {
   const res = await api.get('/ShowCompanyCategoriesMobile');
   return res.data;
