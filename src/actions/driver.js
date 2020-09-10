@@ -3,6 +3,7 @@ import {
   RECORD_DRIVER,
   FETCH_DRIVER_OFFENCES,
   FETCH_DRIVER_INVOICES,
+  FETCH_MY_INVOICES,
 } from './actionTypes';
 import { findDriver, recordDriverTicket } from '../services/driver';
 import { logError } from './error';
@@ -11,6 +12,13 @@ export const getDriver = (driver) => {
   return {
     type: SEARCH_DRIVER,
     driver,
+  };
+};
+
+export const getMyInvoices = (invoices) => {
+  return {
+    type: FETCH_MY_INVOICES,
+    invoices,
   };
 };
 

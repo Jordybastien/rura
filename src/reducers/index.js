@@ -10,6 +10,7 @@ import documents from './documents';
 import driverOffences from './driverOffences';
 import driverInvoices from './driverInvoices';
 import companiesDetails from './companyDetails';
+import myInvoices from './myInvoices';
 
 export default combineReducers({
   loading,
@@ -23,4 +24,5 @@ export default combineReducers({
   driverOffences,
   driverInvoices,
   companiesDetails,
+  myInvoices,
 });

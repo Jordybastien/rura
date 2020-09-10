@@ -3,8 +3,8 @@ import { fetchCompanies, newFetchCompanyDetails } from '../services/company';
 import { hideLoading, showLoading } from './loading';
 import { getDocuments } from './documents';
 import { fetchDocuments } from '../services/documents';
-import { getDriverOffences } from './driver';
-import { fetchDriverOffences } from '../services/driver';
+import { getDriverOffences, getMyInvoices } from './driver';
+import { fetchDriverOffences, fetchMyInvoices } from '../services/driver';
 
 const getInitialData = async () => {
   const [
@@ -26,11 +26,18 @@ const getInitialData = async () => {
     documents,
   };
 };
+const getDriverData = async (userId) => {
+  const [myInvoices] = await Promise.all([fetchMyInvoices(userId)]);
 
-export const handleInitialData = () => {
+  return {
+    myInvoices,
+  };
+};
+
+export const handleInitialData = (userId) => {
   return async (dispatch) => {
     dispatch(showLoading());
-    return getInitialData()
+    return getInitialData(userId)
       .then(
         ({ companies, companiesWithDetails, driverOffences, documents }) => {
           dispatch(getCompanies(companies));
@@ -40,6 +47,17 @@ export const handleInitialData = () => {
           dispatch(hideLoading());
         }
       )
+      .catch(() => dispatch(hideLoading()));
+  };
+};
+export const handleDriverData = (userId) => {
+  return async (dispatch) => {
+    dispatch(showLoading());
+    return getDriverData(userId)
+      .then(({ myInvoices }) => {
+        dispatch(getMyInvoices(myInvoices));
+        dispatch(hideLoading());
+      })
       .catch(() => dispatch(hideLoading()));
   };
 };

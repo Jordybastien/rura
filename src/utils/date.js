@@ -15,6 +15,6 @@ const monthNames = Object.freeze({
 
 export const formatDate = (value) => {
   return `${value.substr(8, 2)} ${
-    monthNames[value.substr(5, 2)].name
+    monthNames[value.substr(5, 2)].acc
   } ${value.substr(0, 4)}`;
 };

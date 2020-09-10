@@ -225,12 +225,6 @@ class CompanyScreen extends Component {
     } = this.props;
     this.companyRef = createRef();
 
-    // categoriesToUse &&
-    //   console.log(
-    //     '==========>categoriesToUse',
-    //     JSON.stringify(categoriesToUse, null, 2)
-    //   );
-
     return (
       <View style={styles.container}>
         <DarkOverlay

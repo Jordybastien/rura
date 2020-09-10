@@ -4,7 +4,7 @@ import { blue } from '../utils/colors';
 import Constants from 'expo-constants';
 import { StatusBar, View } from 'react-native';
 import MainNav from './stackNavigator';
-import { handleInitialData } from '../actions/initialData';
+import { handleInitialData, handleDriverData } from '../actions/initialData';
 import { connect } from 'react-redux';
 import Toast from 'react-native-toast-message';
 import { checkToken } from '../services/auth';
@@ -14,6 +14,11 @@ import { deleteToken } from '../utils/storage';
 class Router extends Component {
   componentDidMount() {
     this.props.dispatch(handleInitialData());
+    refreshUser(this.props).then((user) => {
+      if (user) {
+        this.props.dispatch(handleDriverData(user.id));
+      }
+    });
   }
 
   render() {
