@@ -66,7 +66,15 @@ export const handleSearchDriver = (data) => {
 export const handleSaveDriverTicket = (data) => {
   return async (dispatch) => {
     try {
-      await recordDriverTicket(data);
+      const record = await recordDriverTicket(data);
+      console.log('=======>record', record);
+      if (!record.response_status) {
+        return dispatch(
+          logError(
+            'Driver can not be given a ticket! he has less than 10 points remaining'
+          )
+        );
+      }
       return dispatch(recordDriver(data));
     } catch (error) {
       return dispatch(

@@ -13,6 +13,7 @@ import { deleteToken } from '../utils/storage';
 import { connect } from 'react-redux';
 import { blue, white, gray, orange, lowGray, lowBlue } from '../utils/colors';
 import { FontAwesome, SimpleLineIcons, Foundation } from '@expo/vector-icons';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 
 const { width, height } = Dimensions.get('window');
 
@@ -98,7 +99,14 @@ const styles = StyleSheet.create({
     width: width - 50,
   },
   mainContent: {
-    height: Platform.OS === 'ios' ? height - 150 : height - 180,
+    ...ifIphoneX(
+      {
+        height: height - 225,
+      },
+      {
+        height: Platform.OS === 'ios' ? height - 150 : height - 180,
+      }
+    ),
     backgroundColor: white,
     width: width,
     // justifyContent: 'center',

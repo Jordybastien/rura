@@ -34,7 +34,6 @@ export const recordDriverTicket = async (driverDetails) => {
   )
     .then((response) => response.text())
     .then((result) => {
-      console.log('------------->res', result);
       return result;
     })
     .catch((error) => console.log('error', error));

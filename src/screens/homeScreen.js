@@ -11,6 +11,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { blue, white, gray, orange } from '../utils/colors';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 import {
   FontAwesome,
   AntDesign,
@@ -305,9 +306,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: width - 50,
+    ...ifIphoneX(
+      {
+        marginBottom: 25,
+      },
+      {
+        marginBottom: 0,
+      }
+    ),
   },
   mainContent: {
-    height: height - 200,
+    ...ifIphoneX(
+      {
+        height: height - 250,
+      },
+      {
+        height: height - 200,
+      }
+    ),
     backgroundColor: white,
     width: width,
     justifyContent: 'center',
