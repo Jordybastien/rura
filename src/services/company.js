@@ -45,7 +45,7 @@ export const saveCompanyData = async (companyDetails) => {
   };
 
   fetch(
-    'http://46.101.182.152:9003/api/auth/AddInvoiceCompanyMobile',
+    'http://10.10.30.106/api/auth/AddInvoiceCompanyMobile',
     requestOptions
   )
     .then((response) => response.text())

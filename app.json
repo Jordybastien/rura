@@ -1,12 +1,18 @@
 {
-  "name": "rura",
-  "displayName": "rura",
+  "name": "ruradvcms",
+  "displayName": "RURA DVCMS",
   "expo": {
-    "name": "rura",
-    "slug": "rura",
+    "name": "ruradvcms",
+    "slug": "ruradvcms",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "orientation": "portrait",
+    "sdkVersion": "38.0.0",
+    "icon": "https://res.cloudinary.com/dodfpnbik/image/upload/v1601124831/rura_dvcms_icon_huymwc.png",
+    "ios": {
+      "bundleIdentifier": "org.ruradvcms.exp"
+    },
+    "android": {
+      "package": "org.ruradvcms.exp"
+    }
   }
 }

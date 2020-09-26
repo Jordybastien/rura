@@ -16,25 +16,25 @@ export const fetchDriverOffences = async () => {
 };
 
 export const recordDriverTicket = async (driverDetails) => {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
+  const res = await api.post('/AddInvoiceDriverMobile', driverDetails);
+  return res.data;
+  // const myHeaders = new Headers();
+  // myHeaders.append('Content-Type', 'application/json');
 
-  const raw = JSON.stringify(driverDetails);
+  // const raw = JSON.stringify(driverDetails);
 
-  const requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow',
-  };
+  // const requestOptions = {
+  //   method: 'POST',
+  //   headers: myHeaders,
+  //   body: raw,
+  //   redirect: 'follow',
+  // };
 
-  fetch(
-    'http://46.101.182.152:9003/api/auth/AddInvoiceDriverMobile',
-    requestOptions
-  )
-    .then((response) => response.text())
-    .then((result) => {
-      return result;
-    })
-    .catch((error) => console.log('error', error));
+  // fetch('http://10.10.30.106/api/auth/AddInvoiceDriverMobile', requestOptions)
+  //   .then((response) => response.text())
+  //   .then((result) => {
+  //     console.log('============>result', result);
+  //     return result.response_status;
+  //   })
+  //   .catch((error) => console.log('error', error));
 };

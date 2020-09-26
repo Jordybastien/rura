@@ -21,9 +21,19 @@ export const handleUserLogin = (user) => {
     try {
       const token = await loginUser(user);
       const loggedIn = await checkUser({ token });
-      setToken(token);
-      dispatch(setAuthedUser(loggedIn));
-      return true;
+      
+      if (
+        loggedIn.roles[0].display_name.toLowerCase() === 'user' ||
+        loggedIn.roles[0].display_name.toLowerCase() === 'inspector'
+      ) {
+        setToken(token);
+        dispatch(setAuthedUser(loggedIn));
+        return true;
+      } else {
+        return dispatch(
+          logError('Only Inspectors and Drivers are allowed to login ')
+        );
+      }
     } catch (error) {
       return dispatch(logError('Email or Password mismatch'));
     }

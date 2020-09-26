@@ -67,7 +67,6 @@ export const handleSaveDriverTicket = (data) => {
   return async (dispatch) => {
     try {
       const record = await recordDriverTicket(data);
-      console.log('=======>record', record);
       if (!record.response_status) {
         return dispatch(
           logError(
