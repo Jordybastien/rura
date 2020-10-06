@@ -30,7 +30,7 @@ export const recordDriverTicket = async (driverDetails) => {
   //   redirect: 'follow',
   // };
 
-  // fetch('http://10.10.30.106/api/auth/AddInvoiceDriverMobile', requestOptions)
+  // fetch('http://dvc.rura.rw/api/auth/AddInvoiceDriverMobile', requestOptions)
   //   .then((response) => response.text())
   //   .then((result) => {
   //     console.log('============>result', result);

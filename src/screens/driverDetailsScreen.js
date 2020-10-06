@@ -55,7 +55,7 @@ class DriverDetails extends Component {
           <View style={styles.imageHolder}>
             <Image
               source={{
-                uri: `http://46.101.182.152:9003/Drivers/${driver.driver_photo_name}`,
+                uri: `http://dvc.rura.rw/Drivers/${driver.driver_photo_name}`,
               }}
               style={styles.userImage}
             />

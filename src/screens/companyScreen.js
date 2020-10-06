@@ -47,6 +47,8 @@ class CompanyScreen extends Component {
     isDocsVisible: false,
     categoriesToUse: null,
     offencesToUse: null,
+    driverLicense: '',
+    driverName: '',
   };
 
   handleThisOffence = (id) => {
@@ -132,11 +134,24 @@ class CompanyScreen extends Component {
       plate,
       loading,
       selectedDocs,
+      driverLicense,
+      driverName,
     } = this.state;
 
     let response = true;
     let errorMessage = '';
 
+    if (!driverLicense) {
+      response = false;
+      errorMessage = 'Driver License Number is required';
+    } else if (driverLicense.length < 16 || driverLicense.length > 16) {
+      response = false;
+      errorMessage = 'Driver License Number can not be less than 16';
+    }
+    if (!driverName) {
+      response = false;
+      errorMessage = 'Driver Name is required';
+    }
     if (!location) {
       response = false;
       errorMessage = 'Location is required';
@@ -179,6 +194,8 @@ class CompanyScreen extends Component {
     data.plate_number = plate;
     data.user_id = this.props.userId;
     data.docs_id = selectedDocs;
+    data.driver_licence = driverLicense;
+    data.driver_names = driverName;
 
     errorMessage &&
       Toast.show({
@@ -214,6 +231,8 @@ class CompanyScreen extends Component {
       isDocsVisible,
       categoriesToUse,
       offencesToUse,
+      driverLicense,
+      driverName,
     } = this.state;
     const {
       companyOffences,
@@ -445,6 +464,60 @@ class CompanyScreen extends Component {
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity
+                    style={styles.txtBoxContWrapper}
+                    onPress={() => {
+                      this.driverName.focus();
+                    }}
+                    activeOpacity={1}
+                  >
+                    <View style={styles.txtBoxCont}>
+                      <View style={styles.txtLabelCont}>
+                        <Text style={styles.txtLabel}>Driver Name</Text>
+                      </View>
+                      <View style={styles.txtBoxHolder}>
+                        <TextInput
+                          style={styles.txtBoxInput}
+                          onChangeText={(driverName) =>
+                            this.setState({ driverName })
+                          }
+                          value={driverName}
+                          placeholder="Input Driver Name"
+                          ref={(input) => {
+                            this.driverName = input;
+                          }}
+                        />
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.txtBoxContWrapper}
+                    onPress={() => {
+                      this.driverLicense.focus();
+                    }}
+                    activeOpacity={1}
+                  >
+                    <View style={styles.txtBoxCont}>
+                      <View style={styles.txtLabelCont}>
+                        <Text style={styles.txtLabel}>Driver License</Text>
+                      </View>
+                      <View style={styles.txtBoxHolder}>
+                        <TextInput
+                          style={styles.txtBoxInput}
+                          onChangeText={(driverLicense) =>
+                            !isNaN(driverLicense) &&
+                            this.setState({ driverLicense })
+                          }
+                          value={driverLicense}
+                          placeholder="Input Driver Name"
+                          ref={(input) => {
+                            this.driverLicense = input;
+                          }}
+                          maxLength={16}
+                        />
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={[styles.buttonHolder]}
                     onPress={this.handleRecordCompany}
                   >
@@ -569,7 +642,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingTop: 30,
-    paddingBottom: 30,
+    // paddingBottom: 30,
     alignItems: 'center',
   },
   headerLabel: {
@@ -632,6 +705,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
 
     flexDirection: 'row',
+    marginBottom: 50,
   },
   buttonContainer: {
     flex: 1,

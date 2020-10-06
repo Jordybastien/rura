@@ -4,7 +4,7 @@
   "expo": {
     "name": "ruradvcms",
     "slug": "ruradvcms",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "sdkVersion": "38.0.0",
     "icon": "https://res.cloudinary.com/dodfpnbik/image/upload/v1601124831/rura_dvcms_icon_huymwc.png",
@@ -12,7 +12,8 @@
       "bundleIdentifier": "org.ruradvcms.exp"
     },
     "android": {
-      "package": "org.ruradvcms.exp"
+      "package": "org.ruradvcms.exp",
+      "versionCode": 3
     }
   }
 }

@@ -44,10 +44,7 @@ export const saveCompanyData = async (companyDetails) => {
     redirect: 'follow',
   };
 
-  fetch(
-    'http://10.10.30.106/api/auth/AddInvoiceCompanyMobile',
-    requestOptions
-  )
+  fetch('http://dvc.rura.rw/api/auth/AddInvoiceCompanyMobile', requestOptions)
     .then((response) => response.text())
     .then((result) => {
       return result;

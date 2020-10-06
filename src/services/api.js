@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const baseURL = 'http://10.10.30.106/api/auth/';
+export const baseURL = 'http://dvc.rura.rw/api/auth/';
 
 const apiCall = axios.create({
   baseURL,
