@@ -10,10 +10,14 @@ import Toast from 'react-native-toast-message';
 import { checkToken } from '../services/auth';
 import { setAuthedUser } from '../actions/authedUser';
 import { deleteToken } from '../utils/storage';
+import NetInfo from '@react-native-community/netinfo';
 
 class Router extends Component {
   componentDidMount() {
-    this.props.dispatch(handleInitialData());
+    NetInfo.fetch().then((state) => {
+      const connectionStatus = state?.isConnected ?? false;
+      this.props.dispatch(handleInitialData(connectionStatus));
+    });
     refreshUser(this.props).then((user) => {
       if (user) {
         this.props.dispatch(handleDriverData(user.id));
