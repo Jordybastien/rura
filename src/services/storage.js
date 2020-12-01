@@ -4,6 +4,10 @@ const COMPANIES_KEY = 'RURA_DVCMS:COMPANIES_KEY';
 const COMPANIES_WITH_DETAILS_KEY = 'RURADVCMS:COMPANIES_WITH_DETAILS_KEY';
 const DRIVER_OFFENCES_KEY = 'RURADVCMS:DRIVER_OFFENCES_KEY';
 const DOCUMENTS_KEY = 'RURADVCMS:DOCUMENTS_KEY';
+const DATA_DRIVER_OFFLINE_OFFENCES_KEY =
+  'RURADVCMS:DATA_DRIVER_OFFLINE_OFFENCES_KEY';
+const DATA_COMPANY_OFFLINE_OFFENCES_KEY =
+  'RURADVCMS:DATA_COMPANY_OFFLINE_OFFENCES_KEY';
 
 export const recordLocalData = async (
   companies,
@@ -38,3 +42,28 @@ export const fetchOfflineData = async () => {
     documents,
   };
 };
+
+export const recordOfflineDriverOffence = (driverDetails) => {};
+
+export const recordOfflineCompanyOffence = (companyDetails) => {};
+
+export const fetchOfflineOffences = async () => {
+  const companiesOffences = await AsyncStorage.getItem(
+    DATA_COMPANY_OFFLINE_OFFENCES_KEY
+  );
+  const driversOffences = await AsyncStorage.getItem(
+    DATA_DRIVER_OFFLINE_OFFENCES_KEY
+  );
+
+  return [JSON.parse(companiesOffences), JSON.parse(driversOffences)];
+};
+
+export const deleteOfflineCompanyOffences = () =>
+  AsyncStorage.removeItem(DATA_COMPANY_OFFLINE_OFFENCES_KEY).then(() => {
+    return true;
+  });
+
+export const deleteOfflineDriverOffences = () =>
+  AsyncStorage.removeItem(DATA_DRIVER_OFFLINE_OFFENCES_KEY).then(() => {
+    return true;
+  });

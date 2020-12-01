@@ -65,7 +65,8 @@ class HomeScreen extends Component {
             style={styles.headerImg}
             onPress={() => this.props.navigation.navigate('ProfileScreen')}
           >
-            <FontAwesome name="user-circle-o" size={40} color={white} />
+            {/* <FontAwesome name="user-circle-o" size={40} color={white} /> */}
+            <Text style={styles.offlineLabel}>10 offline data</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.mainContent}>
@@ -477,5 +478,9 @@ const styles = StyleSheet.create({
     fontFamily: 'bold',
     color: blue,
     fontSize: 20,
+  },
+  offlineLabel: {
+    fontFamily: 'regular',
+    color: white,
   },
 });
