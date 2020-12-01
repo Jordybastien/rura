@@ -58,27 +58,22 @@ const getDriverData = async (userId) => {
   };
 };
 
-export const handleInitialData = (connectionStatus) => {
+export const handleInitialData = () => {
+  // TODO: Add connectionStatus Variable as parameter
   return async (dispatch) => {
     dispatch(showLoading());
-    return connectionStatus
-      ? getInitialData()
-      : getOfflineData()
-          .then(
-            ({
-              companies,
-              companiesWithDetails,
-              driverOffences,
-              documents,
-            }) => {
-              dispatch(getCompanies(companies));
-              dispatch(getCompaniesWithDetails(companiesWithDetails));
-              dispatch(getDriverOffences(driverOffences));
-              dispatch(getDocuments(documents));
-              dispatch(hideLoading());
-            }
-          )
-          .catch(() => dispatch(hideLoading()));
+    // TODO: switch back to COndition to check connectionStatus and either getInitialData or Offline Data
+    return getInitialData()
+      .then(
+        ({ companies, companiesWithDetails, driverOffences, documents }) => {
+          dispatch(getCompanies(companies));
+          dispatch(getCompaniesWithDetails(companiesWithDetails));
+          dispatch(getDriverOffences(driverOffences));
+          dispatch(getDocuments(documents));
+          dispatch(hideLoading());
+        }
+      )
+      .catch(() => dispatch(hideLoading()));
   };
 };
 export const handleDriverData = (userId) => {

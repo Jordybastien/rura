@@ -16,7 +16,9 @@ class Router extends Component {
   componentDidMount() {
     NetInfo.fetch().then((state) => {
       const connectionStatus = state?.isConnected ?? false;
-      this.props.dispatch(handleInitialData(connectionStatus));
+      // TODO: Switch back to connectionStatus instead of true
+      // TODO: send connectionStatus as parameter
+      this.props.dispatch(handleInitialData());
     });
     refreshUser(this.props).then((user) => {
       if (user) {
