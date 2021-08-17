@@ -50,10 +50,12 @@ class ScanDetailsScreen extends Component {
       if (!selIdNumber) {
         response = false;
         errorMessage = 'ID Number is required';
-      } else if (selIdNumber.length < 16 || selIdNumber.length > 16) {
-        response = false;
-        errorMessage = 'ID Number can not be less than 16';
-      } else {
+      } 
+      // else if (selIdNumber.length < 16 || selIdNumber.length > 16) {
+      //   response = false;
+      //   errorMessage = 'ID Number can not be less than 16';
+      // } 
+      else {
         toSend = selIdNumber;
       }
     }
@@ -110,7 +112,7 @@ class ScanDetailsScreen extends Component {
                 >
                   <View style={styles.txtBoxCont}>
                     <View style={styles.txtLabelCont}>
-                      <Text style={styles.txtLabel}>ID Number</Text>
+                      <Text style={styles.txtLabel}>Driver Code</Text>
                     </View>
                     <View style={styles.txtBoxHolder}>
                       <TextInput
@@ -125,6 +127,7 @@ class ScanDetailsScreen extends Component {
                         ref={(input) => {
                           this.idNumTxt = input;
                         }}
+                        autoCapitalize="characters"
                       />
                     </View>
                   </View>

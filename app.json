@@ -13,7 +13,7 @@
     },
     "android": {
       "package": "org.ruradvcms.exp",
-      "versionCode": 4
+      "versionCode": 6
     }
   }
 }

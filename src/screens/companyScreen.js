@@ -141,13 +141,13 @@ class CompanyScreen extends Component {
     let response = true;
     let errorMessage = '';
 
-    if (!driverLicense) {
-      response = false;
-      errorMessage = 'Driver License Number is required';
-    } else if (driverLicense.length < 16 || driverLicense.length > 16) {
-      response = false;
-      errorMessage = 'Driver License Number can not be less than 16';
-    }
+    // if (!driverLicense) {
+    //   response = false;
+    //   errorMessage = 'Driver License Number is required';
+    // } else if (driverLicense.length < 16 || driverLicense.length > 16) {
+    //   response = false;
+    //   errorMessage = 'Driver License Number can not be less than 16';
+    // }
     if (!driverName) {
       response = false;
       errorMessage = 'Driver Name is required';
@@ -498,7 +498,7 @@ class CompanyScreen extends Component {
                   >
                     <View style={styles.txtBoxCont}>
                       <View style={styles.txtLabelCont}>
-                        <Text style={styles.txtLabel}>Driver License</Text>
+                        <Text style={styles.txtLabel}>Driving License</Text>
                       </View>
                       <View style={styles.txtBoxHolder}>
                         <TextInput
@@ -508,11 +508,11 @@ class CompanyScreen extends Component {
                             this.setState({ driverLicense })
                           }
                           value={driverLicense}
-                          placeholder="Input Driver Name"
+                          placeholder="Input Driving License"
                           ref={(input) => {
                             this.driverLicense = input;
                           }}
-                          maxLength={16}
+                          // maxLength={16}
                         />
                       </View>
                     </View>
