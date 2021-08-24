@@ -169,10 +169,10 @@ class CompanyScreen extends Component {
       response = false;
       errorMessage = 'Invalid Plate Number';
     }
-    if (selectedDocs.length === 0) {
-      response = false;
-      errorMessage = 'Select atleast one document';
-    }
+    // if (selectedDocs.length === 0) {
+    //   response = false;
+    //   errorMessage = 'Select atleast one document';
+    // }
     if (selectedItems.length === 0) {
       response = false;
       errorMessage = 'Select atleast one offence';

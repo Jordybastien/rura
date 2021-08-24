@@ -89,13 +89,8 @@ class DriverTicketScreen extends Component {
   };
 
   validateData = () => {
-    const {
-      selectedItems,
-      selectedDocs,
-      location,
-      plate,
-      loading,
-    } = this.state;
+    const { selectedItems, selectedDocs, location, plate, loading } =
+      this.state;
     const { driver, userId } = this.props;
 
     let response = true;
@@ -118,10 +113,10 @@ class DriverTicketScreen extends Component {
       response = false;
       errorMessage = 'Invalid Plate Number';
     }
-    if (selectedDocs.length === 0) {
-      response = false;
-      errorMessage = 'Select atleast one document';
-    }
+    // if (selectedDocs.length === 0) {
+    //   response = false;
+    //   errorMessage = 'Select atleast one document';
+    // }
     if (selectedItems.length === 0) {
       response = false;
       errorMessage = 'Select atleast one offence';
